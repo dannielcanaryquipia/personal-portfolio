@@ -46,9 +46,14 @@ export const Home = () => {
           </div>
           <h1 className={styles.title}>{heroTitle || 'Danniel Canary'}</h1>
           <p className={styles.subtitle}>{heroSubtitle || 'Mechanical Engineer & Full-Stack Developer'}</p>
-          <p className={styles.description}>
-            {aboutText || 'Sorsogon State University graduate passionate about precision engineering and modern web development. Combining mechanical expertise with software engineering to build robust, scalable solutions.'}
-          </p>
+          <div className={styles.description}>
+            {(aboutText || 'Sorsogon State University graduate passionate about precision engineering and modern web development. Combining mechanical expertise with software engineering to build robust, scalable solutions.')
+              .split('\n')
+              .filter(paragraph => paragraph.trim() !== '')
+              .map((paragraph, index) => (
+                <p key={index} className={styles.aboutParagraph}>{paragraph.trim()}</p>
+              ))}
+          </div>
           <div className={styles.cta}>
             <a href="/projects" className={styles.primaryButton}>View Projects</a>
             <a href="/contact" className={styles.secondaryButton}>Get in Touch</a>

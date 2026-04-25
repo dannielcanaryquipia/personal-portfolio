@@ -15,8 +15,8 @@
 
 .hero {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-3xl);
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-xl);
   align-items: center;
   padding: var(--spacing-3xl) 0;
   min-height: 70vh;
@@ -93,13 +93,22 @@
 }
 
 .description {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base);
   color: var(--color-text-secondary);
-  max-width: 500px;
+  max-width: 100%;
   margin: var(--spacing-md) 0 0 0;
-  line-height: 1.6;
+  line-height: 1.7;
   animation: slideUp calc(var(--transition-slower) * 1.2) var(--transition-smooth);
   letter-spacing: 0.3px;
+}
+
+.aboutParagraph {
+  margin: 0 0 var(--spacing-sm) 0;
+  text-align: justify;
+}
+
+.aboutParagraph:last-child {
+  margin-bottom: 0;
 }
 
 /* CTA Buttons Section */

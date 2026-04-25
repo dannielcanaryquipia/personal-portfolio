@@ -79,6 +79,13 @@
   align-self: flex-end;
 }
 
+.fieldHint {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-xs) 0;
+  font-style: italic;
+}
+
 .actions {
   display: flex;
   justify-content: flex-end;

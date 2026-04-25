@@ -237,11 +237,13 @@ export const Settings = () => {
 
           <div className={styles.formGroupFull}>
             <label className={styles.label}>About Text</label>
+            <p className={styles.fieldHint}>Use line breaks to separate paragraphs for better readability</p>
             <textarea
               className={styles.textarea}
               value={formData.about_text}
               onChange={(e) => setFormData({ ...formData, about_text: e.target.value })}
-              rows={4}
+              rows={10}
+              placeholder="Enter your bio here. Use line breaks to create paragraphs..."
             />
             <Button 
               variant="secondary" 
@@ -249,6 +251,7 @@ export const Settings = () => {
               onClick={() => handleSave('about_text')}
               loading={updateSetting.isPending}
               className={styles.saveBtn}
+              style={{ alignSelf: 'flex-end' }}
             >
               <Save size={16} />
               Save
