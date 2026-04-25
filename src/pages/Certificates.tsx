@@ -128,8 +128,8 @@ export const Certificates = () => {
             title: selectedCertificate.title,
             file_url: selectedCertificate.file_url!,
             file_type: selectedCertificate.file_type as 'pdf' | 'image',
-            issue_date: selectedCertificate.issue_date,
-            description: selectedCertificate.description,
+            issue_date: selectedCertificate.issue_date || undefined,
+            description: selectedCertificate.description || undefined,
           }}
           onClose={handleClosePreview}
         />
