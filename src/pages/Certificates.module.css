@@ -1,3 +1,8 @@
+/* ============================================================================
+   ENHANCED CERTIFICATES PAGE
+   Adapted to existing design system variables (--color-*, --font-size-*)
+   ============================================================================ */
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -8,26 +13,49 @@
   text-align: center;
   padding: var(--spacing-3xl);
   color: var(--color-text-secondary);
+  animation: pulse 1.5s ease-in-out infinite;
 }
+
+/* ============================================================================
+   PAGE HEADER
+   ============================================================================ */
 
 .header {
   text-align: center;
   margin-bottom: var(--spacing-xl);
+  animation: slideUp var(--transition-slow);
 }
 
 .title {
   font-size: var(--font-size-3xl);
   margin-bottom: var(--spacing-sm);
+  animation: slideUp var(--transition-slow);
 }
 
 .subtitle {
   color: var(--color-text-secondary);
   max-width: 600px;
   margin: 0 auto;
+  animation: slideUp calc(var(--transition-slow) * 1.1);
 }
+
+.subtitle::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-hover));
+  margin: var(--spacing-md) auto 0;
+  border-radius: var(--radius-full);
+}
+
+/* ============================================================================
+   SECTIONS
+   ============================================================================ */
 
 .section {
   margin-bottom: var(--spacing-xl);
+  animation: fadeIn var(--transition-slow);
 }
 
 .sectionHeader {
@@ -36,13 +64,17 @@
   gap: var(--spacing-md);
   margin-bottom: var(--spacing-lg);
   padding-bottom: var(--spacing-sm);
-  border-bottom: 1px solid var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .count {
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
 }
+
+/* ============================================================================
+   CERTIFICATE GRID & CARDS
+   ============================================================================ */
 
 .grid {
   display: grid;
@@ -55,6 +87,19 @@
   align-items: flex-start;
   gap: var(--spacing-md);
   padding: var(--spacing-md);
+  transition: all var(--transition-slow);
+  animation: slideUp var(--transition-slow) var(--transition-smooth) backwards;
+}
+
+.certCard:nth-child(1) { animation-delay: 50ms; }
+.certCard:nth-child(2) { animation-delay: 100ms; }
+.certCard:nth-child(3) { animation-delay: 150ms; }
+.certCard:nth-child(4) { animation-delay: 200ms; }
+.certCard:nth-child(n+5) { animation-delay: 250ms; }
+
+.certCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
 }
 
 .clickable {
@@ -64,13 +109,20 @@
 .certIcon {
   width: 48px;
   height: 48px;
-  background: var(--color-accent);
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text);
+  color: white;
   flex-shrink: 0;
+  transition: all var(--transition-base);
+  box-shadow: 0 4px 12px rgba(var(--color-accent-rgb), 0.2);
+}
+
+.certCard:hover .certIcon {
+  transform: scale(1.1) rotate(3deg);
+  box-shadow: 0 6px 18px rgba(var(--color-accent-rgb), 0.35);
 }
 
 .certContent {
@@ -82,6 +134,7 @@
   font-size: var(--font-size-base);
   margin-bottom: var(--spacing-xs);
   line-height: 1.3;
+  color: var(--color-text);
 }
 
 .date {
@@ -97,23 +150,29 @@
   margin-bottom: var(--spacing-sm);
 }
 
-.viewLink {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  font-size: var(--font-size-sm);
-  color: var(--color-accent);
-}
-
-.viewLink:hover {
-  color: var(--color-accent-hover);
-}
+/* ============================================================================
+   CERTIFICATE ACTIONS
+   ============================================================================ */
 
 .certActions {
   display: flex;
   gap: var(--spacing-sm);
   align-items: center;
   margin-top: var(--spacing-sm);
+}
+
+.viewLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-accent);
+  transition: all var(--transition-fast);
+}
+
+.viewLink:hover {
+  color: var(--color-accent-hover);
+  transform: translateX(2px);
 }
 
 .previewButton {
@@ -131,7 +190,7 @@
 }
 
 .previewButton:hover {
-  background: rgba(255, 107, 53, 0.1);
+  background: rgba(var(--color-accent-rgb), 0.1);
   color: var(--color-accent-hover);
 }
 
@@ -140,29 +199,38 @@
   align-items: center;
   margin-top: var(--spacing-sm);
   padding: var(--spacing-xs) var(--spacing-sm);
-  background: rgba(255, 0, 0, 0.1);
-  border: 1px solid rgba(255, 0, 0, 0.2);
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.2);
   border-radius: var(--radius-sm);
 }
 
 .noFileIndicator span {
   font-size: var(--font-size-xs);
-  color: var(--color-error, #dc3545);
+  color: var(--color-danger);
   font-weight: 500;
 }
+
+/* ============================================================================
+   EMPTY STATE
+   ============================================================================ */
 
 .empty {
   text-align: center;
   padding: var(--spacing-3xl);
   color: var(--color-text-muted);
+  animation: fadeIn var(--transition-slow);
 }
 
 .empty svg {
   margin-bottom: var(--spacing-md);
   opacity: 0.5;
+  animation: float 3s var(--transition-smooth) infinite;
 }
 
-/* Responsive */
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr;
@@ -174,5 +242,20 @@
 
   .certIcon {
     align-self: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 var(--spacing-md);
+  }
+
+  .certCard {
+    padding: var(--spacing-sm);
+  }
+
+  .certIcon {
+    width: 40px;
+    height: 40px;
   }
 }

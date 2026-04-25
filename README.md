@@ -20,7 +20,8 @@ A **production-grade, full-stack portfolio** built with React 19, TypeScript, Su
 12. [Implementation Details](#-implementation-details)
 13. [Security](#-security)
 14. [Deployment](#-deployment)
-15. [Documentation](#-documentation)
+15. [Design Enhancements](#-design-enhancements)
+16. [Documentation](#-documentation)
 
 ---
 
@@ -1235,6 +1236,91 @@ If no features exist in database, Home.tsx shows static fallback:
 
 ### Theme System
 CSS variables in `:root` with dark mode support via `prefers-color-scheme` and manual toggle using `ThemeContext`.
+
+---
+
+## 🎨 Design Enhancements
+
+> **CSS-only visual upgrade** — All enhancements were applied exclusively through CSS changes. Zero `.tsx` component files, API hooks, or business logic were modified.
+
+### Overview
+
+A comprehensive design enhancement package was integrated to elevate the portfolio's visual polish, adding professional-grade animations, improved interactions, and refined visual hierarchy across all pages.
+
+> **⚠️ Integration Note:** The enhancement source files used different CSS variable names (`--text`, `--accent`, `--font-4xl`) than the project's existing design system (`--color-text`, `--color-accent`, `--font-size-4xl`). All enhancements were manually adapted to use the correct naming convention to ensure zero breakage.
+
+### Files Modified
+
+| File | Changes |
+|------|---------|
+| `src/styles/globals.css` | 13 animation keyframes, utility classes, enhanced design tokens |
+| `src/pages/Home.module.css` | Hero animations, floating orbs, button effects, staggered cards |
+| `src/pages/Projects.module.css` | Card entrance animations, image zoom, action reveal |
+| `src/pages/Contact.module.css` | Form styling, social buttons, success animation |
+| `src/pages/Certificates.module.css` | Staggered entrances, icon hover effects |
+| `src/layouts/MainLayout/MainLayout.module.css` | Glassmorphism header, nav animations, footer polish |
+
+### What Was Added
+
+#### 1. Global Design System (`globals.css`)
+- **13 animation keyframes**: `fadeIn`, `slideUp`, `slideDown`, `slideInLeft`, `slideInRight`, `scaleIn`, `pulse`, `glow`, `shimmer`, `float`, `spin`, `wiggle`, `bounce`
+- **Animation utility classes**: `.animate-fade-in`, `.animate-slide-up`, `.animate-glow`, `.animate-float`, `.animate-bounce`, etc.
+- **Staggered animation support**: `.animate-stagger` for lists/grids with automatic delay per child
+- **Enhanced shadows**: `--shadow-2xl`, `--shadow-glow-accent`
+- **Advanced transitions**: `--transition-slower` (500ms), `--transition-smooth` (cubic-bezier), `--transition-bounce`
+- **Z-index scale**: Systematic layering from `--z-base` to `--z-tooltip`
+- **Gradient utilities**: `.gradient-accent`, `.gradient-text`, `.backdrop-blur`
+- **Reduced motion**: Full `prefers-reduced-motion` accessibility support
+
+#### 2. Home Page (`Home.module.css`)
+- Hero gradient background with subtle accent color wash
+- Floating orb effect behind profile image
+- Profile image shimmer animation and hover zoom
+- Staggered entrance animations on feature cards (100ms delay per card)
+- Button shine sweep effect on hover
+- Section title underline decoration with gradient
+- Enhanced responsive breakpoints (768px + 480px)
+
+#### 3. Projects Page (`Projects.module.css`)
+- Staggered card entrance animations (50ms delay per card)
+- Image zoom on card hover (1.08x scale)
+- Action buttons fade-in reveal on hover
+- Styled empty state with dashed border and emoji icon
+- Loading pulse animation
+
+#### 4. Contact Page (`Contact.module.css`)
+- Info card gradient background with decorative orb
+- Social links as circular orange buttons with lift effect
+- Enhanced focus rings on form inputs (3px accent glow)
+- Success state bounce animation
+- Slide-in animations for info and form sections
+
+#### 5. Certificates Page (`Certificates.module.css`)
+- Staggered entrance animations on cert cards
+- Icon rotate/scale on card hover
+- Gradient icon backgrounds instead of flat color
+- Floating empty state animation
+
+#### 6. Layout (`MainLayout.module.css`)
+- Glassmorphism header (20px blur + 85% transparency)
+- Accent-colored borders on header and footer
+- Smooth nav underline animation (center origin scaleX)
+- Social link hover with circular background + lift
+- Page content fadeIn transition
+
+### What Was NOT Changed
+- ✅ All `.tsx` component files — zero changes
+- ✅ All API hooks (`src/api/hooks.ts`) — untouched
+- ✅ Theme system (`ThemeContext.tsx`) — `[data-theme]` approach preserved
+- ✅ Admin dashboard pages — untouched
+- ✅ Supabase integration — untouched
+- ✅ All CSS class names — preserved, matching existing JSX references
+
+### Performance Considerations
+- All animations use GPU-accelerated properties (`transform`, `opacity`) for 60fps performance
+- `will-change` properties are avoided to prevent memory overhead
+- Floating orb on hero section is hidden on mobile (768px) for performance
+- Full `prefers-reduced-motion` support disables animations for users who need it
 
 ---
 

@@ -1,17 +1,27 @@
+/* ============================================================================
+   ENHANCED MAIN LAYOUT - Header, Nav, Footer
+   ============================================================================ */
+
 .layout {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* Header */
+/* ============================================================================
+   HEADER - Glassmorphism with Accent Border
+   ============================================================================ */
+
 .header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(var(--color-primary-rgb), 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--color-border);
+  background: rgba(var(--color-primary-rgb), 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(var(--color-accent-rgb), 0.15);
+  transition: all var(--transition-base);
+  animation: slideDown var(--transition-slow);
 }
 
 .headerContainer {
@@ -28,10 +38,13 @@
   font-weight: 700;
   color: var(--color-accent);
   text-decoration: none;
+  transition: all var(--transition-base);
+  position: relative;
 }
 
 .logo:hover {
   color: var(--color-accent-hover);
+  text-shadow: 0 0 20px rgba(var(--color-accent-rgb), 0.3);
 }
 
 .nav {
@@ -43,9 +56,11 @@
   color: var(--color-text-secondary);
   text-decoration: none;
   font-weight: 500;
-  padding: var(--spacing-sm) 0;
+  padding: var(--spacing-sm) var(--spacing-xs);
   position: relative;
   transition: color var(--transition-fast);
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.3px;
 }
 
 .nav a:hover,
@@ -53,14 +68,23 @@
   color: var(--color-text);
 }
 
-.nav a.active::after {
+.nav a::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--color-accent);
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-hover));
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--transition-base);
+  border-radius: var(--radius-full);
+}
+
+.nav a:hover::after,
+.nav a.active::after {
+  transform: scaleX(1);
 }
 
 .headerActions {
@@ -69,17 +93,25 @@
   gap: var(--spacing-sm);
 }
 
-/* Main Content */
+/* ============================================================================
+   MAIN CONTENT
+   ============================================================================ */
+
 .main {
   flex: 1;
   padding: var(--spacing-xl) 0;
+  animation: fadeIn var(--transition-slow);
 }
 
-/* Footer */
+/* ============================================================================
+   FOOTER - Enhanced with Gradient Border & Social Effects
+   ============================================================================ */
+
 .footer {
   background: var(--color-primary-dark);
-  border-top: 1px solid var(--color-text-muted);
+  border-top: 1px solid rgba(var(--color-accent-rgb), 0.15);
   padding: var(--spacing-lg) 0;
+  margin-top: auto;
 }
 
 .footerContainer {
@@ -103,15 +135,27 @@
 }
 
 .socialLinks a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
   color: var(--color-text-secondary);
-  transition: color var(--transition-fast);
+  transition: all var(--transition-base);
+  background: transparent;
 }
 
 .socialLinks a:hover {
   color: var(--color-accent);
+  background: rgba(var(--color-accent-rgb), 0.1);
+  transform: translateY(-3px);
 }
 
-/* Responsive */
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
 @media (max-width: 768px) {
   .headerContainer {
     flex-direction: column;
@@ -121,15 +165,32 @@
 
   .nav {
     gap: var(--spacing-md);
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .nav a {
     font-size: var(--font-size-sm);
+    padding: var(--spacing-xs) var(--spacing-xs);
   }
 
   .footerContainer {
     flex-direction: column;
     gap: var(--spacing-md);
     text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerContainer {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  .nav {
+    gap: var(--spacing-sm);
+  }
+
+  .nav a {
+    font-size: var(--font-size-xs);
   }
 }
