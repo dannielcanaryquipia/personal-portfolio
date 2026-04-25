@@ -1,0 +1,132 @@
+.container {
+  max-width: 1000px;
+}
+
+.loading {
+  padding: var(--spacing-xl);
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.header {
+  margin-bottom: var(--spacing-lg);
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--spacing-xs);
+}
+
+.subtitle {
+  color: var(--color-text-secondary);
+}
+
+/* Message List */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.messageCard {
+  padding: var(--spacing-md);
+}
+
+.messageCard.unread {
+  border-left: 3px solid var(--color-accent);
+  background: rgba(255, 107, 53, 0.05);
+}
+
+.messageHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--color-text-muted);
+}
+
+.messageIcon {
+  width: 40px;
+  height: 40px;
+  background: var(--color-primary);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+}
+
+.messageCard.unread .messageIcon {
+  color: var(--color-accent);
+}
+
+.messageInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.messageName {
+  font-size: var(--font-size-base);
+  margin: 0;
+}
+
+.messageEmail {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.messageMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.messageDate {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* Message Body */
+.messageBody {
+  padding: var(--spacing-sm) 0;
+}
+
+.messageText {
+  color: var(--color-text);
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* Actions */
+.messageActions {
+  display: flex;
+  gap: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-text-muted);
+}
+
+/* Empty State */
+.empty {
+  text-align: center;
+  padding: var(--spacing-3xl);
+  color: var(--color-text-muted);
+}
+
+.empty svg {
+  margin-bottom: var(--spacing-md);
+  opacity: 0.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .messageHeader {
+    flex-wrap: wrap;
+  }
+
+  .messageMeta {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
