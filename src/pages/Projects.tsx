@@ -1,17 +1,62 @@
+import { useState } from 'react';
 import { Card } from '@/components/ui/Card/Card';
 import { Badge } from '@/components/ui/Badge/Badge';
 import { Button } from '@/components/ui/Button/Button';
-import { useProjects } from '@/api/hooks';
+import { Skeleton } from '@/components/common/Skeleton';
+import { ProjectDetail } from '@/components/portfolio/ProjectDetail';
+import { useProjects, useSiteSettings } from '@/api/hooks';
+import { useSEO, projectStructuredData } from '@/utils/seo';
 import styles from './Projects.module.css';
-import { Github, ExternalLink } from 'lucide-react';
+import { Github, ExternalLink, Eye } from 'lucide-react';
+import type { Project } from '@/api/supabase';
 
 export const Projects = () => {
   const { data: projects = [], isLoading } = useProjects();
+  const { data: settings = [] } = useSiteSettings();
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  const siteUrl = settings.find(s => s.key === 'site_url')?.value || window.location.origin;
+  const siteName = settings.find(s => s.key === 'hero_title')?.value || 'Danniel Canary';
+
+  // SEO for Projects page
+  useSEO({
+    title: 'Projects',
+    description: `Explore ${projects.length} projects by ${siteName} in web development, engineering, and AI. View case studies with problem statements, solutions, and tech stacks.`,
+    keywords: ['Projects', 'Portfolio', 'Web Development', 'React', 'TypeScript', 'Case Studies'],
+    ogUrl: `${siteUrl}/projects`,
+    canonicalUrl: `${siteUrl}/projects`,
+    structuredData: projects.map(p => projectStructuredData({
+      name: p.title,
+      description: p.description || '',
+      url: p.live_url || `${siteUrl}/projects`,
+      image: p.image_url || undefined,
+      codeRepository: p.github_url || undefined,
+      programmingLanguage: p.tags?.filter((t): t is string => t !== null) || [],
+    })),
+  });
+
+  const handleViewDetails = (project: Project) => {
+    setSelectedProject(project);
+  };
+
+  const handleCloseDetails = () => {
+    setSelectedProject(null);
+  };
 
   if (isLoading) {
     return (
       <div className={styles.container}>
-        <div className={styles.loading}>Loading projects...</div>
+        <header className={styles.header}>
+          <h1 className={styles.title}>Projects</h1>
+          <p className={styles.subtitle}>
+            A collection of my work in web development, engineering, and AI
+          </p>
+        </header>
+        <div className={styles.grid}>
+          {[1, 2, 3].map((i) => (
+            <Skeleton.Card key={i} animation="wave" />
+          ))}
+        </div>
       </div>
     );
   }
@@ -27,7 +72,12 @@ export const Projects = () => {
 
       <div className={styles.grid}>
         {projects.map((project) => (
-          <Card key={project.id} hover className={styles.projectCard}>
+          <Card 
+            key={project.id} 
+            hover 
+            className={styles.projectCard}
+            onClick={() => handleViewDetails(project)}
+          >
             {project.image_url && (
               <div className={styles.imageWrapper}>
                 <img src={project.image_url} alt={project.title} className={styles.image} />
@@ -46,14 +96,39 @@ export const Projects = () => {
               )}
 
               <div className={styles.actions}>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleViewDetails(project);
+                  }}
+                >
+                  <Eye size={16} />
+                  View Details
+                </Button>
                 {project.github_url && (
-                  <Button variant="secondary" size="sm" onClick={() => window.open(project.github_url!, '_blank')}>
+                  <Button 
+                    variant="secondary" 
+                    size="sm" 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.open(project.github_url!, '_blank');
+                    }}
+                  >
                     <Github size={16} />
                     Code
                   </Button>
                 )}
                 {project.live_url && (
-                  <Button variant="primary" size="sm" onClick={() => window.open(project.live_url!, '_blank')}>
+                  <Button 
+                    variant="primary" 
+                    size="sm" 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.open(project.live_url!, '_blank');
+                    }}
+                  >
                     <ExternalLink size={16} />
                     Live Demo
                   </Button>
@@ -69,6 +144,12 @@ export const Projects = () => {
           <p>No projects yet. Add some via the admin dashboard!</p>
         </div>
       )}
+
+      <ProjectDetail
+        project={selectedProject}
+        isOpen={!!selectedProject}
+        onClose={handleCloseDetails}
+      />
     </div>
   );
 };

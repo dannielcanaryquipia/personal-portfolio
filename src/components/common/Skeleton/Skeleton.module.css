@@ -1,0 +1,89 @@
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-primary-light) 25%,
+    rgba(var(--color-accent-rgb), 0.1) 50%,
+    var(--color-primary-light) 75%
+  );
+  background-size: 200% 100%;
+  display: block;
+}
+
+/* Variants */
+.text {
+  height: 1em;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.5em;
+}
+
+.text:last-child {
+  margin-bottom: 0;
+}
+
+.circular {
+  border-radius: var(--radius-full);
+}
+
+.rectangular {
+  border-radius: 0;
+}
+
+.rounded {
+  border-radius: var(--radius-lg);
+}
+
+/* Animations */
+.pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.wave {
+  animation: wave 1.5s linear infinite;
+}
+
+.none {
+  animation: none;
+}
+
+/* Text Group */
+.textGroup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Card Skeleton */
+.cardSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  background: var(--color-primary);
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+/* Keyframes */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes wave {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

@@ -68,6 +68,7 @@
   animation: slideUp var(--transition-slow) var(--transition-smooth) backwards;
   position: relative;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
 }
 
 .projectCard:nth-child(1) { animation-delay: 50ms; }
@@ -88,6 +89,10 @@
 .projectCard:hover .actions {
   opacity: 1;
   transform: translateY(0);
+}
+
+.projectCard .actions button {
+  cursor: pointer;
 }
 
 /* ============================================================================
@@ -162,9 +167,10 @@
 .actions {
   display: flex;
   gap: var(--spacing-sm);
-  opacity: 0;
-  transform: translateY(10px);
+  opacity: 1;
+  transform: translateY(0);
   transition: all var(--transition-base);
+  flex-wrap: wrap;
 }
 
 /* ============================================================================
@@ -224,10 +230,8 @@
     padding: var(--spacing-md);
   }
 
-  /* On mobile, always show action buttons */
+  /* On mobile, stack action buttons */
   .actions {
-    opacity: 1;
-    transform: translateY(0);
     flex-direction: column;
   }
 

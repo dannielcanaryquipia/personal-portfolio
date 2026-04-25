@@ -2,6 +2,7 @@ import { Card } from '@/components/ui/Card/Card';
 import { Badge } from '@/components/ui/Badge/Badge';
 import { StatCard } from '@/components/ui/StatCard';
 import { useStatus, useSiteSettings, useFeatures, useStats, useProjects, useCertificates } from '@/api/hooks';
+import { useSEO, personStructuredData, websiteStructuredData } from '@/utils/seo';
 import styles from './Home.module.css';
 import { Code2, Wrench, Database, Download, Sparkles, Globe, Zap, type LucideIcon } from 'lucide-react';
 
@@ -27,6 +28,37 @@ export const Home = () => {
   const heroSubtitle = settings.find(s => s.key === 'hero_subtitle')?.value;
   const aboutText = settings.find(s => s.key === 'about_text')?.value;
   const profileImageUrl = settings.find(s => s.key === 'profile_image_url')?.value;
+  const siteUrl = settings.find(s => s.key === 'site_url')?.value || window.location.origin;
+
+  // SEO structured data
+  useSEO({
+    title: 'Home',
+    description: aboutText?.slice(0, 160) || 'Mechanical Engineer & Full-Stack Developer. Building robust, scalable solutions at the intersection of precision engineering and modern software.',
+    keywords: ['Danniel Canary', 'Mechanical Engineer', 'Full-Stack Developer', 'React', 'TypeScript', 'Web Development', 'Portfolio'],
+    ogImage: profileImageUrl || '/profile-pic/profile.jpg',
+    ogUrl: siteUrl,
+    canonicalUrl: siteUrl,
+    structuredData: [
+      personStructuredData({
+        name: heroTitle || 'Danniel Canary',
+        jobTitle: heroSubtitle || 'Mechanical Engineer & Full-Stack Developer',
+        description: aboutText || 'Sorsogon State University graduate passionate about precision engineering and modern web development.',
+        image: profileImageUrl || `${siteUrl}/profile-pic/profile.jpg`,
+        url: siteUrl,
+        email: settings.find(s => s.key === 'contact_email')?.value || undefined,
+        sameAs: [
+          settings.find(s => s.key === 'github_url')?.value,
+          settings.find(s => s.key === 'linkedin_url')?.value,
+        ].filter(Boolean) as string[],
+        knowsAbout: ['Mechanical Engineering', 'Web Development', 'React', 'TypeScript', 'AI', 'Data Engineering'],
+      }),
+      websiteStructuredData({
+        name: heroTitle || 'Danniel Canary',
+        url: siteUrl,
+        description: aboutText || 'Portfolio of Danniel Canary - Mechanical Engineer & Full-Stack Developer',
+      }),
+    ],
+  });
 
   const getIconComponent = (iconName: string): LucideIcon => {
     return ICON_MAP[iconName] || Wrench;
