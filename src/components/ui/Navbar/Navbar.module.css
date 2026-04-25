@@ -116,15 +116,34 @@
   background: var(--color-primary-dark);
   z-index: 201;
   transform: translateX(100%);
-  transition: transform var(--transition-base);
-  display: none;
+  transition: transform 0.3s ease-in-out;
   flex-direction: column;
-  padding-top: 60px;
   border-left: 1px solid rgba(var(--color-accent-rgb), 0.15);
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+  visibility: hidden;
 }
 
 .mobileDrawer.open {
   transform: translateX(0);
+  visibility: visible;
+}
+
+.mobileDrawerHeader {
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid rgba(var(--color-accent-rgb), 0.15);
+}
+
+.mobileDrawerLogo {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: all var(--transition-base);
+}
+
+.mobileDrawerLogo:hover {
+  color: var(--color-accent-hover);
+  text-shadow: 0 0 20px rgba(var(--color-accent-rgb), 0.3);
 }
 
 .mobileNav {
@@ -197,7 +216,7 @@
   }
 
   .mobileDrawer {
-    display: flex;
+    visibility: visible;
   }
 }
 

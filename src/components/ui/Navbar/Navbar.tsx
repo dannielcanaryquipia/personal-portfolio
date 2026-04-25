@@ -111,6 +111,11 @@ export const Navbar = memo(({ siteName, navItems = DEFAULT_NAV_ITEMS }: NavbarPr
         className={`${styles.mobileDrawer} ${mobileMenuOpen ? styles.open : ''}`}
         aria-hidden={!mobileMenuOpen}
       >
+        <div className={styles.mobileDrawerHeader}>
+          <NavLink to="/" className={styles.mobileDrawerLogo} onClick={closeMobileMenu}>
+            {siteName}
+          </NavLink>
+        </div>
         <nav className={styles.mobileNav}>
           {navItems.map((item) => (
             <NavLinkItem key={item.path} {...item} onClick={closeMobileMenu} />
