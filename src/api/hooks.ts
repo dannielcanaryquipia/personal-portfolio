@@ -1,3 +1,13 @@
+// Suppress Supabase console warnings that expose project reference
+const originalWarn = console.warn;
+console.warn = (...args: unknown[]) => {
+  const message = args.join(' ');
+  if (message.includes('GoTrueClient') && message.includes('Multiple')) {
+    return; // Suppress GoTrueClient instance warnings
+  }
+  originalWarn.apply(console, args);
+};
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from './supabase';
 import type { Project, Certificate, ContactMessage, Status, SiteSetting, Feature, Stat } from './supabase';
@@ -171,15 +181,39 @@ export const useContactMessages = () => {
 
 export const useCreateContactMessage = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async (message: Omit<ContactMessage, 'id' | 'is_read' | 'created_at'>) => {
-      const { data, error } = await supabase
+      // Create a fresh client without auth session to ensure anon role is used
+      const { createClient } = await import('@supabase/supabase-js');
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+      if (!supabaseUrl || !supabaseAnonKey) {
+        throw new Error('Missing Supabase credentials');
+      }
+
+      // Use fresh client with memory storage to completely isolate from existing sessions
+      const memoryStorage = {
+        getItem: () => null,
+        setItem: () => {},
+        removeItem: () => {},
+      };
+
+      const publicClient = createClient(supabaseUrl, supabaseAnonKey, {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false,
+          storage: memoryStorage,
+        },
+      });
+
+      const { data, error } = await publicClient
         .from('contact_messages')
         .insert([message])
         .select()
         .single();
-      
+
       if (error) throw error;
       return data;
     },

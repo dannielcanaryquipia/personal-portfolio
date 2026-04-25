@@ -1,0 +1,222 @@
+/* ============================================================================
+   NAVBAR - Responsive with Mobile Drawer
+   ============================================================================ */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(var(--color-primary-rgb), 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(var(--color-accent-rgb), 0.15);
+  transition: all var(--transition-base);
+  animation: slideDown var(--transition-slow);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-md) var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.logo {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: all var(--transition-base);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.logo:hover {
+  color: var(--color-accent-hover);
+  text-shadow: 0 0 20px rgba(var(--color-accent-rgb), 0.3);
+}
+
+/* Desktop Navigation */
+.desktopNav {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+.desktopNav a {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  padding: var(--spacing-sm) var(--spacing-xs);
+  position: relative;
+  transition: color var(--transition-fast);
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.3px;
+}
+
+.desktopNav a:hover,
+.desktopNav a.active {
+  color: var(--color-text);
+}
+
+.desktopNav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-hover));
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--transition-base);
+  border-radius: var(--radius-full);
+}
+
+.desktopNav a:hover::after,
+.desktopNav a.active::after {
+  transform: scaleX(1);
+}
+
+/* Desktop Actions */
+.desktopActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* Mobile Menu Button */
+.mobileMenuBtn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileMenuBtn:hover {
+  background: var(--color-primary-light);
+  color: var(--color-accent);
+}
+
+/* Mobile Drawer */
+.mobileDrawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 280px;
+  background: var(--color-primary-dark);
+  z-index: 201;
+  transform: translateX(100%);
+  transition: transform var(--transition-base);
+  display: none;
+  flex-direction: column;
+  padding-top: 60px;
+  border-left: 1px solid rgba(var(--color-accent-rgb), 0.15);
+}
+
+.mobileDrawer.open {
+  transform: translateX(0);
+}
+
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-md);
+  gap: var(--spacing-xs);
+}
+
+.mobileNav a {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  font-size: var(--font-size-base);
+}
+
+.mobileNav a:hover,
+.mobileNav a.active {
+  color: var(--color-text);
+  background: var(--color-primary-light);
+}
+
+.mobileNav a.active {
+  color: var(--color-accent);
+  background: rgba(var(--color-accent-rgb), 0.1);
+}
+
+.mobileActionsBottom {
+  margin-top: auto;
+  padding: var(--spacing-md);
+  border-top: 1px solid rgba(var(--color-accent-rgb), 0.15);
+  display: flex;
+  justify-content: center;
+}
+
+/* Mobile Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* ============================================================================
+   RESPONSIVE - Mobile & Tablet
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .desktopNav {
+    display: none;
+  }
+
+  .desktopActions {
+    display: none;
+  }
+
+  .mobileMenuBtn {
+    display: flex;
+  }
+
+  .mobileDrawer {
+    display: flex;
+  }
+}
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

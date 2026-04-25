@@ -1,8 +1,7 @@
-import { NavLink } from 'react-router-dom';
 import styles from './MainLayout.module.css';
 import { Github, Linkedin, Mail } from 'lucide-react';
 import { useSiteSettings } from '@/api/hooks';
-import { ThemeToggle } from '@/components/ui/ThemeToggle/ThemeToggle';
+import { Navbar } from '@/components/ui/Navbar/Navbar';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -17,32 +16,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <div className={styles.layout}>
       {/* Header */}
-      <header className={styles.header}>
-        <div className={styles.headerContainer}>
-          <NavLink to="/" className={styles.logo}>
-            {siteName}
-          </NavLink>
-          
-          <nav className={styles.nav}>
-            <NavLink to="/" className={({ isActive }) => isActive ? styles.active : ''} end>
-              Home
-            </NavLink>
-            <NavLink to="/projects" className={({ isActive }) => isActive ? styles.active : ''}>
-              Projects
-            </NavLink>
-            <NavLink to="/certificates" className={({ isActive }) => isActive ? styles.active : ''}>
-              Certificates
-            </NavLink>
-            <NavLink to="/contact" className={({ isActive }) => isActive ? styles.active : ''}>
-              Contact
-            </NavLink>
-          </nav>
-          
-          <div className={styles.headerActions}>
-            <ThemeToggle size="sm" variant="ghost" />
-          </div>
-        </div>
-      </header>
+      <Navbar siteName={siteName} />
 
       {/* Main Content */}
       <main className={styles.main}>

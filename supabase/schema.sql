@@ -146,17 +146,25 @@ CREATE POLICY "Auth write certificates"
   ON certificates FOR ALL TO authenticated 
   USING (true);
 
--- Contact Messages: Public can insert, authenticated can read/update
-CREATE POLICY "Public insert messages" 
-  ON contact_messages FOR INSERT TO anon 
+-- Contact Messages: Public can insert, authenticated can read/update/delete
+CREATE POLICY "Public insert messages"
+  ON contact_messages FOR INSERT TO anon
   WITH CHECK (true);
 
-CREATE POLICY "Auth read messages" 
-  ON contact_messages FOR SELECT TO authenticated 
+CREATE POLICY "Auth insert messages"
+  ON contact_messages FOR INSERT TO authenticated
+  WITH CHECK (true);
+
+CREATE POLICY "Auth read messages"
+  ON contact_messages FOR SELECT TO authenticated
   USING (true);
 
-CREATE POLICY "Auth update messages" 
-  ON contact_messages FOR UPDATE TO authenticated 
+CREATE POLICY "Auth update messages"
+  ON contact_messages FOR UPDATE TO authenticated
+  USING (true);
+
+CREATE POLICY "Auth delete messages"
+  ON contact_messages FOR DELETE TO authenticated
   USING (true);
 
 -- Status: Public can read, authenticated can write

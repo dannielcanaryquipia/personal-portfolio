@@ -283,6 +283,7 @@ portfolio/
 │   │   │   ├── Button/              # Action buttons
 │   │   │   ├── Card/                # Content cards
 │   │   │   ├── Input/               # Form inputs
+│   │   │   ├── Navbar/              # Responsive navigation with mobile drawer
 │   │   │   ├── StatCard/            # Statistics display
 │   │   │   ├── ThemeToggle/         # Dark/light mode toggle
 │   │   │   ├── CertificatePreview/  # PDF/Image preview
@@ -562,10 +563,47 @@ Subscribes to certificate changes.
 | `Button` | `variant`, `size`, `onClick` | Action button with variants |
 | `Card` | `hover`, `children` | Content container with hover effect |
 | `Input` | `label`, `error`, `helperText` | Form text input |
+| `Navbar` | `siteName`, `navItems?` | Responsive navigation with mobile drawer |
 | `StatCard` | `value`, `label` | Statistics display card |
 | `ThemeToggle` | `size`, `variant` | Dark/light mode switcher |
 | `CertificatePreview` | `url`, `type` | PDF/image preview modal |
 | `PdfViewer` | `url` | PDF rendering component |
+
+### Navbar Component (`src/components/ui/Navbar/`)
+
+A reusable, responsive navigation component with mobile hamburger menu.
+
+**Props:**
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `siteName` | `string` | Yes | Brand/logo text |
+| `navItems` | `NavItem[]` | No | Custom nav items (defaults to Home, Projects, Certificates, Contact) |
+
+**Features:**
+- Desktop: Horizontal navigation with animated underline indicators
+- Mobile/Tablet (≤768px): Hamburger menu with slide-in drawer from right
+- Auto-closes on route change, window resize, or overlay click
+- Prevents body scroll when mobile menu is open
+- Accessible with ARIA attributes (`aria-label`, `aria-expanded`, `aria-hidden`)
+- Performance optimized with `React.memo` to prevent unnecessary re-renders
+
+**Usage:**
+```tsx
+import { Navbar } from '@/components/ui/Navbar/Navbar';
+
+// Default navigation
+<Navbar siteName="My Portfolio" />
+
+// Custom navigation items
+<Navbar 
+  siteName="My Portfolio"
+  navItems={[
+    { path: '/', label: 'Home' },
+    { path: '/about', label: 'About' },
+    { path: '/contact', label: 'Contact' },
+  ]}
+/>
+```
 
 ### Available Icons (Lucide)
 
@@ -1324,7 +1362,51 @@ A comprehensive design enhancement package was integrated to elevate the portfol
 
 ---
 
-## 📄 License
+## � Changelog
+
+### April 2026 - Mobile Responsiveness & Bug Fixes
+
+#### Admin Panel Responsive Layout
+**Files:** `src/layouts/AdminLayout/AdminLayout.tsx`, `src/layouts/AdminLayout/AdminLayout.module.css`
+
+- **Fixed React Hooks Order Bug**: Moved `useEffect` hook before early return statements to comply with React Rules of Hooks
+- **Mobile Sidebar Navigation**: Added hamburger menu button for mobile/tablet (≤768px)
+- **Slide-in Drawer**: Sidebar transforms from off-screen with smooth slide animation
+- **Dark Overlay**: Click overlay to close sidebar on mobile
+- **Auto-close**: Sidebar closes on route change, window resize to desktop, or overlay click
+- **Tablet Optimization**: Sidebar narrows to 240px on tablets (≤1024px)
+
+#### New Reusable Navbar Component
+**Files:** `src/components/ui/Navbar/Navbar.tsx`, `src/components/ui/Navbar/Navbar.module.css`
+
+- **Created responsive Navbar component** with mobile hamburger menu
+- **Desktop**: Horizontal navigation with animated underline indicators
+- **Mobile/Tablet**: Slide-in drawer from right with nav links and theme toggle
+- **Performance optimized**: Uses `React.memo` for component and nav items
+- **Accessibility**: ARIA attributes (`aria-label`, `aria-expanded`, `aria-hidden`)
+- **Body scroll lock**: Prevents scrolling when mobile menu is open
+- **Integrated into MainLayout**: Replaced inline header with reusable Navbar component
+
+#### Updated Project Structure
+```
+src/components/ui/
+└── Navbar/                    # NEW - Reusable responsive navbar
+    ├── Navbar.tsx
+    └── Navbar.module.css
+```
+
+#### Modified Files Summary
+| File | Changes |
+|------|---------|
+| `src/layouts/AdminLayout/AdminLayout.tsx` | Fixed hooks order, added mobile sidebar state |
+| `src/layouts/AdminLayout/AdminLayout.module.css` | Added mobile header, overlay styles, responsive breakpoints |
+| `src/layouts/MainLayout/MainLayout.tsx` | Replaced inline header with Navbar component |
+| `src/layouts/MainLayout/MainLayout.module.css` | Removed header styles (now in Navbar) |
+| `src/components/ui/Navbar/*` | **NEW** - Reusable navbar component |
+
+---
+
+## �📄 License
 
 Created for portfolio demonstration.
 
