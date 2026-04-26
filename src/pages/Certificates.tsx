@@ -7,7 +7,7 @@ import { Select } from '@/components/common/Select';
 import { useCertificates, useSiteSettings } from '@/api/hooks';
 import { useSEO } from '@/utils/seo';
 import styles from './Certificates.module.css';
-import { Award, ExternalLink, FileText, Eye, Search, Filter } from 'lucide-react';
+import { Award, FileText, Search, Filter } from 'lucide-react';
 
 const issuerColors: Record<string, 'default' | 'success' | 'info' | 'warning'> = {
   'Anthropic': 'success',
@@ -189,33 +189,6 @@ export const Certificates = () => {
                   )}
                   {cert.description && (
                     <p className={styles.description}>{cert.description}</p>
-                  )}
-                  {cert.file_url && cert.file_url.trim() !== '' ? (
-                    <div className={styles.certActions}>
-                      <button 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handlePreview(cert);
-                        }}
-                        className={styles.previewButton}
-                      >
-                        <Eye size={14} />
-                        Preview
-                      </button>
-                      <a 
-                        href={cert.file_url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className={styles.viewLink}
-                      >
-                        <ExternalLink size={14} />
-                        Open
-                      </a>
-                    </div>
-                  ) : (
-                    <div className={styles.noFileIndicator}>
-                      <span>No file attached</span>
-                    </div>
                   )}
                 </div>
               </Card>
