@@ -179,7 +179,7 @@
 
 /* Live Database Stats */
 .liveStatsSection {
-  background: var(--color-surface);
+  background: var(--color-primary-light);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--spacing-md);
@@ -199,14 +199,14 @@
   align-items: center;
   text-align: center;
   padding: var(--spacing-md);
-  background: var(--color-background);
+  background: var(--color-secondary);
   border-radius: var(--radius-sm);
 }
 
 .liveStatValue {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
+  color: var(--color-accent);
   line-height: 1;
 }
 
