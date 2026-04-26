@@ -29,13 +29,24 @@ export const useAuth = (): UseAuthReturn => {
       }
 
       setRoleLoading(true);
+      console.log('[useAuth] Checking admin role for user:', session.user.id);
+
       const { data, error } = await supabase
         .from('user_roles')
         .select('role')
         .eq('user_id', session.user.id)
-        .single();
+        .maybeSingle();
 
-      setIsAdmin(data?.role === 'admin' && !error);
+      if (error) {
+        console.error('[useAuth] Error fetching user role:', error.message);
+        setIsAdmin(false);
+      } else {
+        console.log('[useAuth] User role data:', data);
+        const hasAdminRole = data?.role === 'admin';
+        console.log('[useAuth] Is admin:', hasAdminRole);
+        setIsAdmin(hasAdminRole);
+      }
+
       setRoleLoading(false);
     };
 
