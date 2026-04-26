@@ -3,7 +3,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Suspense, lazy } from 'react';
 import { MainLayout } from '@/layouts/MainLayout/MainLayout';
 import { AdminLayout } from '@/layouts/AdminLayout/AdminLayout';
-import { ProtectedRoute } from '@/components/common/ProtectedRoute/ProtectedRoute';
 import { ProtectedAdminRoute } from '@/components/common/ProtectedAdminRoute/ProtectedAdminRoute';
 import { PageLoader } from '@/components/common/PageLoader/PageLoader';
 
