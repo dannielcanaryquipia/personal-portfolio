@@ -1,6 +1,6 @@
 .quickAction {
-  background: #111633;
-  border: 1px solid #1E2348;
+  background: var(--color-secondary);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 1.25rem;
   display: flex;
@@ -12,8 +12,8 @@
 }
 
 .quickAction:hover {
-  border-color: #FF6B35;
-  background: #141B3D;
+  border-color: var(--color-accent);
+  background: var(--color-primary-light);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
 }
@@ -26,20 +26,20 @@
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: linear-gradient(135deg, #0A0E27 0%, #141B3D 100%);
-  border: 1px solid #1E2348;
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary-light) 100%);
+  border: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #FF6B35;
+  color: var(--color-accent);
   flex-shrink: 0;
   transition: all 250ms ease-out;
 }
 
 .quickAction:hover .actionIcon {
-  background: linear-gradient(135deg, #FF6B35 0%, #E85A2A 100%);
-  color: #0A0E27;
-  border-color: #FF6B35;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+  color: var(--color-text-inverse);
+  border-color: var(--color-accent);
 }
 
 .actionIcon svg {
@@ -55,12 +55,12 @@
 .actionLabel {
   font-size: 0.9375rem;
   font-weight: 600;
-  color: #E4E6F0;
+  color: var(--color-text);
   margin-bottom: 0.25rem;
 }
 
 .actionDescription {
   font-size: 0.75rem;
-  color: #8892B0;
+  color: var(--color-text-secondary);
   line-height: 1.4;
 }

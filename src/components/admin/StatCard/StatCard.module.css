@@ -1,6 +1,6 @@
 .statCard {
-  background: #111633;
-  border: 1px solid #1E2348;
+  background: var(--color-secondary);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 1.5rem;
   display: flex;
@@ -10,7 +10,7 @@
 }
 
 .statCard:hover {
-  border-color: #FF6B35;
+  border-color: var(--color-accent);
   box-shadow: 0 0 20px rgba(255, 107, 53, 0.1);
   transform: translateY(-2px);
 }
@@ -19,11 +19,11 @@
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #FF6B35 0%, #E85A2A 100%);
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #0A0E27;
+  color: var(--color-text-inverse);
   flex-shrink: 0;
 }
 
@@ -40,14 +40,14 @@
 .statValue {
   font-size: 2rem;
   font-weight: 700;
-  color: #E4E6F0;
+  color: var(--color-text);
   line-height: 1;
   margin-bottom: 0.25rem;
 }
 
 .statLabel {
   font-size: 0.875rem;
-  color: #8892B0;
+  color: var(--color-text-secondary);
   font-weight: 500;
 }
 
@@ -58,9 +58,9 @@
 }
 
 .statTrend.positive {
-  color: #34D399;
+  color: var(--color-success);
 }
 
 .statTrend.negative {
-  color: #F87171;
+  color: var(--color-danger);
 }
