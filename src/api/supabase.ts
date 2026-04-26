@@ -84,6 +84,12 @@ export interface Stat {
   updated_at: string;
 }
 
+export interface UserRole {
+  id: string;
+  user_id: string;
+  role: 'admin' | 'user';
+}
+
 // Database type helper
 export type Database = {
   public: {
@@ -122,6 +128,11 @@ export type Database = {
         Row: Stat;
         Insert: Omit<Stat, 'id' | 'updated_at'>;
         Update: Partial<Omit<Stat, 'id'>>;
+      };
+      user_roles: {
+        Row: UserRole;
+        Insert: Omit<UserRole, 'id'>;
+        Update: Partial<Omit<UserRole, 'id'>>;
       };
     };
   };

@@ -4,6 +4,7 @@ import { Suspense, lazy } from 'react';
 import { MainLayout } from '@/layouts/MainLayout/MainLayout';
 import { AdminLayout } from '@/layouts/AdminLayout/AdminLayout';
 import { ProtectedRoute } from '@/components/common/ProtectedRoute/ProtectedRoute';
+import { ProtectedAdminRoute } from '@/components/common/ProtectedAdminRoute/ProtectedAdminRoute';
 import { PageLoader } from '@/components/common/PageLoader/PageLoader';
 
 // Lazy load pages for code splitting
@@ -19,6 +20,7 @@ const Status = lazy(() => import('@/pages/admin/Status'));
 const Messages = lazy(() => import('@/pages/admin/Messages'));
 const Settings = lazy(() => import('@/pages/admin/Settings'));
 const AdminFeatures = lazy(() => import('@/pages/admin/Features'));
+const Unauthorized = lazy(() => import('@/pages/admin/Unauthorized'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,13 +45,14 @@ function App() {
 
             {/* Admin Routes */}
             <Route path="/admin/login" element={<Login />} />
-            <Route path="/admin" element={<ProtectedRoute><AdminLayout><Dashboard /></AdminLayout></ProtectedRoute>} />
-            <Route path="/admin/projects" element={<ProtectedRoute><AdminLayout><AdminProjects /></AdminLayout></ProtectedRoute>} />
-            <Route path="/admin/certificates" element={<ProtectedRoute><AdminLayout><AdminCertificates /></AdminLayout></ProtectedRoute>} />
-            <Route path="/admin/status" element={<ProtectedRoute><AdminLayout><Status /></AdminLayout></ProtectedRoute>} />
-            <Route path="/admin/messages" element={<ProtectedRoute><AdminLayout><Messages /></AdminLayout></ProtectedRoute>} />
-            <Route path="/admin/features" element={<ProtectedRoute><AdminLayout><AdminFeatures /></AdminLayout></ProtectedRoute>} />
-            <Route path="/admin/settings" element={<ProtectedRoute><AdminLayout><Settings /></AdminLayout></ProtectedRoute>} />
+            <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route path="/admin" element={<ProtectedAdminRoute><AdminLayout><Dashboard /></AdminLayout></ProtectedAdminRoute>} />
+            <Route path="/admin/projects" element={<ProtectedAdminRoute><AdminLayout><AdminProjects /></AdminLayout></ProtectedAdminRoute>} />
+            <Route path="/admin/certificates" element={<ProtectedAdminRoute><AdminLayout><AdminCertificates /></AdminLayout></ProtectedAdminRoute>} />
+            <Route path="/admin/status" element={<ProtectedAdminRoute><AdminLayout><Status /></AdminLayout></ProtectedAdminRoute>} />
+            <Route path="/admin/messages" element={<ProtectedAdminRoute><AdminLayout><Messages /></AdminLayout></ProtectedAdminRoute>} />
+            <Route path="/admin/features" element={<ProtectedAdminRoute><AdminLayout><AdminFeatures /></AdminLayout></ProtectedAdminRoute>} />
+            <Route path="/admin/settings" element={<ProtectedAdminRoute><AdminLayout><Settings /></AdminLayout></ProtectedAdminRoute>} />
           </Routes>
         </Suspense>
       </BrowserRouter>
