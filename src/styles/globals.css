@@ -37,6 +37,18 @@
   --color-border: #333333;
   --color-success-bg: rgba(46, 204, 113, 0.1);
 
+  /* Admin Panel Colors */
+  --admin-bg: #0B0F1E;
+  --admin-sidebar-bg: #070A18;
+  --admin-sidebar-border: #1E2348;
+  --admin-nav-text: #8892B0;
+  --admin-nav-hover-bg: #111633;
+  --admin-nav-hover-text: #E4E6F0;
+  --admin-nav-active-bg: #FF6B35;
+  --admin-nav-active-text: #0A0E27;
+  --admin-card-bg: #141B3D;
+  --admin-header-bg: #070A18;
+
   /* Spacing */
   --spacing-xs: 4px;
   --spacing-sm: 8px;
@@ -112,6 +124,18 @@
   --color-text-inverse-rgb: 255, 255, 255;
   --color-border: #DDDDDD;
   --color-success-bg: rgba(46, 204, 113, 0.15);
+
+  /* Admin Panel Colors - Light Theme */
+  --admin-bg: #F8F9FC;
+  --admin-sidebar-bg: #FFFFFF;
+  --admin-sidebar-border: #E2E8F0;
+  --admin-nav-text: #64748B;
+  --admin-nav-hover-bg: #F1F5F9;
+  --admin-nav-hover-text: #1E293B;
+  --admin-nav-active-bg: #FF6B35;
+  --admin-nav-active-text: #FFFFFF;
+  --admin-card-bg: #FFFFFF;
+  --admin-header-bg: #FFFFFF;
 }
 
 [data-theme='light'] body::before {

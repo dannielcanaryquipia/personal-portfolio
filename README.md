@@ -1540,6 +1540,58 @@ The admin panel now matches the main portfolio's dark industrial theme:
 
 ---
 
+## 🎨 Admin Panel Theme System Refinement
+
+### April 2026 - Theme-Aware Admin Panel & Login Enhancement
+
+**Goal:** Fix hardcoded dark theme in admin panel and enhance login page with proper brand icons.
+
+#### Theme System Fix
+
+**Problem:** Admin panel had hardcoded hex colors (`#0B0F1E`, `#070A18`, etc.) that ignored the global theme system.
+
+**Solution:** Converted all admin styling to use CSS variables for full dark/light theme support.
+
+**Files Modified:**
+- `src/styles/globals.css` - Added admin-specific CSS variables for both dark and light themes
+- `src/layouts/AdminLayout/AdminLayout.module.css` - Replaced hardcoded colors with `var(--admin-bg)`, `var(--admin-sidebar-bg)`, etc.
+
+**CSS Variables Added:**
+
+| Variable | Dark Value | Light Value |
+|----------|------------|-------------|
+| `--admin-bg` | `#0B0F1E` | `#F8F9FC` |
+| `--admin-sidebar-bg` | `#070A18` | `#FFFFFF` |
+| `--admin-sidebar-border` | `#1E2348` | `#E2E8F0` |
+| `--admin-nav-text` | `#8892B0` | `#64748B` |
+| `--admin-nav-hover-bg` | `#111633` | `#F1F5F9` |
+| `--admin-nav-hover-text` | `#E4E6F0` | `#1E293B` |
+| `--admin-nav-active-bg` | `#FF6B35` | `#FF6B35` |
+| `--admin-nav-active-text` | `#0A0E27` | `#FFFFFF` |
+| `--admin-card-bg` | `#141B3D` | `#FFFFFF` |
+| `--admin-header-bg` | `#070A18` | `#FFFFFF` |
+
+#### Login Page Enhancement
+
+**Files Modified:**
+- `src/pages/admin/Login.tsx` - Replaced generic Lucide icons with official brand SVG icons
+- `src/pages/admin/Login.module.css` - Added `.brandIcon` styling and enhanced button hover effects
+
+**Changes:**
+- **Google OAuth Button:** Added full-color 4-path Google logo SVG with official brand colors
+- **GitHub OAuth Button:** Added monochrome GitHub logo SVG using `currentColor` for theme adaptation
+- **Button Styling:** Enhanced hover states with accent border glow and smooth transitions
+- **Theme Support:** Login card now adapts to light/dark theme with proper contrast
+
+#### Benefits
+
+- Admin panel now respects theme toggle preference (light/dark mode)
+- Login page displays authentic brand icons for better user trust
+- Consistent visual experience across all admin pages
+- Better accessibility with proper color contrast in both themes
+
+---
+
 ## 📄 License
 
 Created for portfolio demonstration.
