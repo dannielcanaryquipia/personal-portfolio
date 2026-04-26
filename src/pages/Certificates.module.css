@@ -3,11 +3,7 @@
    Adapted to existing design system variables (--color-*, --font-size-*)
    ============================================================================ */
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-}
+/* Container styles now handled by MainLayout Container component */
 
 .loading {
   text-align: center;

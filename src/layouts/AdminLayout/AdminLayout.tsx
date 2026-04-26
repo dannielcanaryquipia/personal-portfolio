@@ -1,4 +1,4 @@
-import { NavLink, Navigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styles from './AdminLayout.module.css';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button/Button';
@@ -24,7 +24,7 @@ interface AdminLayoutProps {
 }
 
 export const AdminLayout = ({ children }: AdminLayoutProps) => {
-  const { session, signOut, loading } = useAuth();
+  const { session, signOut } = useAuth();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
@@ -38,19 +38,6 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  if (loading) {
-    return (
-      <div className={styles.loading}>
-        <div className={styles.spinner} />
-        <p>Loading...</p>
-      </div>
-    );
-  }
-
-  if (!session) {
-    return <Navigate to="/admin/login" replace />;
-  }
 
   const handleLogout = async () => {
     await signOut();

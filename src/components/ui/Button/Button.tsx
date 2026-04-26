@@ -1,4 +1,5 @@
 import styles from './Button.module.css';
+import { memo } from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
@@ -7,15 +8,15 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean;
 }
 
-export const Button = ({ 
-  variant = 'primary', 
-  size = 'md', 
+export const Button = memo(({
+  variant = 'primary',
+  size = 'md',
   loading = false,
   fullWidth = false,
-  children, 
+  children,
   disabled,
   className = '',
-  ...props 
+  ...props
 }: ButtonProps) => {
   const classes = [
     styles.button,
@@ -36,4 +37,6 @@ export const Button = ({
       <span className={loading ? styles.loadingText : ''}>{children}</span>
     </button>
   );
-};
+});
+
+Button.displayName = 'Button';

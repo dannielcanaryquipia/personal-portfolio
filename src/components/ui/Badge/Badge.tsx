@@ -1,4 +1,5 @@
 import styles from './Badge.module.css';
+import { memo } from 'react';
 
 interface BadgeProps {
   children: React.ReactNode;
@@ -6,8 +7,8 @@ interface BadgeProps {
   size?: 'sm' | 'md';
 }
 
-export const Badge = ({ 
-  children, 
+export const Badge = memo(({
+  children,
   variant = 'default',
   size = 'sm'
 }: BadgeProps) => {
@@ -22,4 +23,6 @@ export const Badge = ({
       {children}
     </span>
   );
-};
+});
+
+Badge.displayName = 'Badge';

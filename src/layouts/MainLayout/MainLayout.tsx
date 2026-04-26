@@ -2,6 +2,7 @@ import styles from './MainLayout.module.css';
 import { Github, Linkedin, Mail } from 'lucide-react';
 import { useSiteSettings } from '@/api/hooks';
 import { Navbar } from '@/components/ui/Navbar/Navbar';
+import { Container } from '@/components/common/Container/Container';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -20,28 +21,30 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
 
       {/* Main Content */}
       <main className={styles.main}>
-        {children}
+        <Container>{children}</Container>
       </main>
 
       {/* Footer */}
       <footer className={styles.footer}>
-        <div className={styles.footerContainer}>
-          <p className={styles.copyright}>
-            © {new Date().getFullYear()} {siteName}. All rights reserved.
-          </p>
-          
-          <div className={styles.socialLinks}>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-              <Github size={20} />
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-              <Linkedin size={20} />
-            </a>
-            <a href={`mailto:${contactEmail}`} aria-label="Email">
-              <Mail size={20} />
-            </a>
+        <Container>
+          <div className={styles.footerContent}>
+            <p className={styles.copyright}>
+              © {new Date().getFullYear()} {siteName}. All rights reserved.
+            </p>
+            
+            <div className={styles.socialLinks}>
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <Github size={20} />
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <Linkedin size={20} />
+              </a>
+              <a href={`mailto:${contactEmail}`} aria-label="Email">
+                <Mail size={20} />
+              </a>
+            </div>
           </div>
-        </div>
+        </Container>
       </footer>
     </div>
   );

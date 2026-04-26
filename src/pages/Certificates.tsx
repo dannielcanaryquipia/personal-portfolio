@@ -264,3 +264,5 @@ export const Certificates = () => {
     </div>
   );
 };
+
+export default Certificates;

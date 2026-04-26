@@ -1,0 +1,29 @@
+.container {
+  width: 100%;
+  max-width: var(--container-max-width, 1200px);
+  margin: 0 auto;
+}
+
+/* Padding variants */
+.padding-none {
+  padding: 0;
+}
+
+.padding-sm {
+  padding: 0 var(--spacing-sm);
+}
+
+.padding-md {
+  padding: 0 var(--spacing-md);
+}
+
+.padding-lg {
+  padding: 0 var(--spacing-lg);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .padding-lg {
+    padding: 0 var(--spacing-md);
+  }
+}

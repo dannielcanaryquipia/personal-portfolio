@@ -1,0 +1,111 @@
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(var(--color-accent-rgb), 0.1), rgba(var(--color-accent-rgb), 0.03));
+  border: 3px solid var(--color-accent);
+  transition: all var(--transition-slow);
+}
+
+/* Size variants */
+.sm {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+}
+
+.md {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-lg);
+}
+
+.lg {
+  width: 150px;
+  height: 150px;
+  border-radius: var(--radius-xl);
+}
+
+.xl {
+  width: 300px;
+  height: 300px;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-glow-accent), 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.xl:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-glow-accent), 0 30px 60px rgba(0, 0, 0, 0.2);
+}
+
+/* Image styles */
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.container:hover .image {
+  transform: scale(1.05);
+}
+
+/* Shimmer effect for container */
+.container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  animation: shimmer 3s infinite;
+  pointer-events: none;
+}
+
+/* Fallback styles */
+.fallback {
+  background: linear-gradient(135deg, rgba(var(--color-accent-rgb), 0.15), rgba(var(--color-accent-rgb), 0.05));
+}
+
+.fallbackIcon {
+  color: var(--color-accent);
+  opacity: 0.6;
+}
+
+/* Hidden image for preloading */
+.hiddenImage {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .xl {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .xl {
+    width: 200px;
+    height: 200px;
+  }
+
+  .lg {
+    width: 120px;
+    height: 120px;
+  }
+}

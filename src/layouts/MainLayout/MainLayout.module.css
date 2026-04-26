@@ -29,10 +29,7 @@
   margin-top: auto;
 }
 
-.footerContainer {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
+.footerContent {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -72,7 +69,7 @@
    ============================================================================ */
 
 @media (max-width: 768px) {
-  .footerContainer {
+  .footerContent {
     flex-direction: column;
     gap: var(--spacing-md);
     text-align: center;

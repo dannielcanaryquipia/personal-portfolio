@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/Card/Card';
 import { Badge } from '@/components/ui/Badge/Badge';
 import { StatCard } from '@/components/ui/StatCard';
+import { ProfileImage } from '@/components/ui/ProfileImage/ProfileImage';
 import { useStatus, useSiteSettings, useFeatures, useStats, useProjects, useCertificates } from '@/api/hooks';
 import { useSEO, personStructuredData, websiteStructuredData } from '@/utils/seo';
 import styles from './Home.module.css';
@@ -98,9 +99,11 @@ export const Home = () => {
           </div>
         </div>
         <div className={styles.heroImage}>
-          <div className={styles.profilePlaceholder}>
-            <img src={profileImageUrl || '/profile-pic/profile.jpg'} alt={heroTitle || 'Danniel Canary'} className={styles.profileImage} />
-          </div>
+          <ProfileImage
+            src={profileImageUrl || '/profile-pic/profile.jpg'}
+            alt={heroTitle || 'Danniel Canary'}
+            size="xl"
+          />
         </div>
       </section>
 
@@ -166,3 +169,5 @@ export const Home = () => {
     </div>
   );
 };
+
+export default Home;

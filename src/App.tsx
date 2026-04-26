@@ -1,19 +1,24 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Suspense, lazy } from 'react';
 import { MainLayout } from '@/layouts/MainLayout/MainLayout';
 import { AdminLayout } from '@/layouts/AdminLayout/AdminLayout';
-import { Home } from '@/pages/Home';
-import { Projects } from '@/pages/Projects';
-import { Certificates } from '@/pages/Certificates';
-import { Contact } from '@/pages/Contact';
-import { Login } from '@/pages/admin/Login';
-import { Dashboard } from '@/pages/admin/Dashboard';
-import { AdminProjects } from '@/pages/admin/Projects';
-import { AdminCertificates } from '@/pages/admin/Certificates';
-import { Status } from '@/pages/admin/Status';
-import { Messages } from '@/pages/admin/Messages';
-import { Settings } from '@/pages/admin/Settings';
-import { AdminFeatures } from '@/pages/admin/Features';
+import { ProtectedRoute } from '@/components/common/ProtectedRoute/ProtectedRoute';
+import { PageLoader } from '@/components/common/PageLoader/PageLoader';
+
+// Lazy load pages for code splitting
+const Home = lazy(() => import('@/pages/Home'));
+const Projects = lazy(() => import('@/pages/Projects'));
+const Certificates = lazy(() => import('@/pages/Certificates'));
+const Contact = lazy(() => import('@/pages/Contact'));
+const Login = lazy(() => import('@/pages/admin/Login'));
+const Dashboard = lazy(() => import('@/pages/admin/Dashboard'));
+const AdminProjects = lazy(() => import('@/pages/admin/Projects'));
+const AdminCertificates = lazy(() => import('@/pages/admin/Certificates'));
+const Status = lazy(() => import('@/pages/admin/Status'));
+const Messages = lazy(() => import('@/pages/admin/Messages'));
+const Settings = lazy(() => import('@/pages/admin/Settings'));
+const AdminFeatures = lazy(() => import('@/pages/admin/Features'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,23 +33,25 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<MainLayout><Home /></MainLayout>} />
-          <Route path="/projects" element={<MainLayout><Projects /></MainLayout>} />
-          <Route path="/certificates" element={<MainLayout><Certificates /></MainLayout>} />
-          <Route path="/contact" element={<MainLayout><Contact /></MainLayout>} />
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<MainLayout><Home /></MainLayout>} />
+            <Route path="/projects" element={<MainLayout><Projects /></MainLayout>} />
+            <Route path="/certificates" element={<MainLayout><Certificates /></MainLayout>} />
+            <Route path="/contact" element={<MainLayout><Contact /></MainLayout>} />
 
-          {/* Admin Routes */}
-          <Route path="/admin/login" element={<Login />} />
-          <Route path="/admin" element={<AdminLayout><Dashboard /></AdminLayout>} />
-          <Route path="/admin/projects" element={<AdminLayout><AdminProjects /></AdminLayout>} />
-          <Route path="/admin/certificates" element={<AdminLayout><AdminCertificates /></AdminLayout>} />
-          <Route path="/admin/status" element={<AdminLayout><Status /></AdminLayout>} />
-          <Route path="/admin/messages" element={<AdminLayout><Messages /></AdminLayout>} />
-          <Route path="/admin/features" element={<AdminLayout><AdminFeatures /></AdminLayout>} />
-          <Route path="/admin/settings" element={<AdminLayout><Settings /></AdminLayout>} />
-        </Routes>
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<Login />} />
+            <Route path="/admin" element={<ProtectedRoute><AdminLayout><Dashboard /></AdminLayout></ProtectedRoute>} />
+            <Route path="/admin/projects" element={<ProtectedRoute><AdminLayout><AdminProjects /></AdminLayout></ProtectedRoute>} />
+            <Route path="/admin/certificates" element={<ProtectedRoute><AdminLayout><AdminCertificates /></AdminLayout></ProtectedRoute>} />
+            <Route path="/admin/status" element={<ProtectedRoute><AdminLayout><Status /></AdminLayout></ProtectedRoute>} />
+            <Route path="/admin/messages" element={<ProtectedRoute><AdminLayout><Messages /></AdminLayout></ProtectedRoute>} />
+            <Route path="/admin/features" element={<ProtectedRoute><AdminLayout><AdminFeatures /></AdminLayout></ProtectedRoute>} />
+            <Route path="/admin/settings" element={<ProtectedRoute><AdminLayout><Settings /></AdminLayout></ProtectedRoute>} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </QueryClientProvider>
   );

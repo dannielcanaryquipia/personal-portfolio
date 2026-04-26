@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { Card } from '@/components/ui/Card/Card';
-import { Badge } from '@/components/ui/Badge/Badge';
+import { Tag } from '@/components/ui/Tag/Tag';
 import { Button } from '@/components/ui/Button/Button';
 import { Skeleton } from '@/components/common/Skeleton';
+import { EmptyState } from '@/components/common/EmptyState/EmptyState';
 import { ProjectDetail } from '@/components/portfolio/ProjectDetail';
 import { useProjects, useSiteSettings } from '@/api/hooks';
 import { useSEO, projectStructuredData } from '@/utils/seo';
 import styles from './Projects.module.css';
-import { Github, ExternalLink, Eye } from 'lucide-react';
+import { Github, ExternalLink, Eye, FolderOpen } from 'lucide-react';
 import type { Project } from '@/api/supabase';
 
 export const Projects = () => {
@@ -90,7 +91,7 @@ export const Projects = () => {
               {project.tags && project.tags.length > 0 && (
                 <div className={styles.tags}>
                   {project.tags.map((tag) => (
-                    <Badge key={tag} variant="default" size="sm">{tag}</Badge>
+                    <Tag key={tag} variant="primary" size="sm">{tag}</Tag>
                   ))}
                 </div>
               )}
@@ -140,9 +141,11 @@ export const Projects = () => {
       </div>
 
       {projects.length === 0 && (
-        <div className={styles.empty}>
-          <p>No projects yet. Add some via the admin dashboard!</p>
-        </div>
+        <EmptyState
+          icon={FolderOpen}
+          title="No projects yet"
+          description="Add some projects via the admin dashboard to showcase your work!"
+        />
       )}
 
       <ProjectDetail
@@ -153,3 +156,5 @@ export const Projects = () => {
     </div>
   );
 };
+
+export default Projects;
