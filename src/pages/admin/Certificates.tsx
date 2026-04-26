@@ -460,3 +460,5 @@ export const AdminCertificates = () => {
     </div>
   );
 };
+
+export default AdminCertificates;

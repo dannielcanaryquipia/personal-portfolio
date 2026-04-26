@@ -76,7 +76,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
       <aside className={`${styles.sidebar} ${sidebarCollapsed ? styles.collapsed : ''} ${mobileSidebarOpen ? styles.open : ''}`}>
         <div className={styles.sidebarHeader}>
           <h1 className={styles.logo}>{sidebarCollapsed ? 'A' : 'Admin'}</h1>
-          {!sidebarCollapsed && <p className={styles.userEmail}>{session.user?.email}</p>}
+          {!sidebarCollapsed && <p className={styles.userEmail}>{session?.user?.email}</p>}
           <button 
             onClick={toggleSidebar} 
             className={styles.collapseBtn}

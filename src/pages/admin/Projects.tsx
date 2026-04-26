@@ -273,3 +273,5 @@ export const AdminProjects = () => {
     </div>
   );
 };
+
+export default AdminProjects;

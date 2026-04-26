@@ -95,3 +95,5 @@ export const Messages = () => {
     </div>
   );
 };
+
+export default Messages;

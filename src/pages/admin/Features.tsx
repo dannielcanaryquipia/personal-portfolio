@@ -213,3 +213,5 @@ export const AdminFeatures = () => {
     </div>
   );
 };
+
+export default AdminFeatures;

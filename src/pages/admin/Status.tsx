@@ -151,3 +151,5 @@ export const Status = () => {
     </div>
   );
 };
+
+export default Status;
