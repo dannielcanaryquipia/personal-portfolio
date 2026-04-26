@@ -19,6 +19,59 @@
   font-size: var(--font-size-2xl);
 }
 
+/* Search Bar */
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: var(--color-primary-light);
+  border: 1px solid var(--color-text-muted);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  transition: border-color var(--transition-fast);
+}
+
+.searchBar:focus-within {
+  border-color: var(--color-accent);
+}
+
+.searchIcon {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.searchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: var(--color-text-muted);
+}
+
+.clearSearch {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.clearSearch:hover {
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+
 /* Form */
 .formCard {
   margin-bottom: var(--spacing-lg);

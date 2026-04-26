@@ -3,10 +3,11 @@ import { Button } from '@/components/ui/Button/Button';
 import { Input } from '@/components/ui/Input/Input';
 import { Card } from '@/components/ui/Card/Card';
 import { Badge } from '@/components/ui/Badge/Badge';
+import { AccordionGroup, EmptyState } from '@/components/admin';
 import { useCertificates, useCreateCertificate, useUpdateCertificate, useDeleteCertificate, useUploadFile, useDeleteFile } from '@/api/hooks';
 import { supabase } from '@/api/supabase';
 import styles from './Certificates.module.css';
-import { Plus, Edit2, Trash2, X, Save, FileText, Upload } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, Save, FileText, Upload, Award, Search } from 'lucide-react';
 
 export const AdminCertificates = () => {
   const { data: certificates = [], isLoading } = useCertificates();
@@ -17,6 +18,7 @@ export const AdminCertificates = () => {
   const [editing, setEditing] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [formData, setFormData] = useState({
     title: '',
     issuer: '',
@@ -211,8 +213,15 @@ export const AdminCertificates = () => {
 
   if (isLoading) return <div className={styles.loading}>Loading...</div>;
 
-  // Group by issuer
-  const grouped = certificates.reduce((acc, cert) => {
+  // Filter and group by issuer
+  const filteredCertificates = searchQuery
+    ? certificates.filter(cert => 
+        cert.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        cert.issuer.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : certificates;
+
+  const grouped = filteredCertificates.reduce((acc, cert) => {
     if (!acc[cert.issuer]) acc[cert.issuer] = [];
     acc[cert.issuer].push(cert);
     return acc;
@@ -231,6 +240,26 @@ export const AdminCertificates = () => {
           Add Certificate
         </Button>
       </header>
+
+      {/* Search Bar */}
+      <div className={styles.searchBar}>
+        <Search size={18} className={styles.searchIcon} />
+        <input
+          type="text"
+          placeholder="Search certificates by title or issuer..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className={styles.searchInput}
+        />
+        {searchQuery && (
+          <button 
+            className={styles.clearSearch}
+            onClick={() => setSearchQuery('')}
+          >
+            <X size={16} />
+          </button>
+        )}
+      </div>
 
       {/* Create/Edit Form */}
       {(isCreating || editing) && (
@@ -400,13 +429,14 @@ export const AdminCertificates = () => {
         </Card>
       )}
 
-      {/* Certificates List */}
+      {/* Certificates List with Accordion */}
       {Object.entries(grouped).map(([issuer, certs]) => (
-        <section key={issuer} className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <Badge variant="default" size="md">{issuer}</Badge>
-            <span className={styles.count}>{certs.length} certificates</span>
-          </div>
+        <AccordionGroup 
+          key={issuer} 
+          title={issuer} 
+          count={certs.length}
+          defaultOpen={searchQuery ? true : false}
+        >
           <div className={styles.list}>
             {certs.map((cert) => (
               <Card key={cert.id} className={styles.certCard}>
@@ -449,13 +479,27 @@ export const AdminCertificates = () => {
               </Card>
             ))}
           </div>
-        </section>
+        </AccordionGroup>
       ))}
 
       {certificates.length === 0 && (
-        <div className={styles.empty}>
-          <p>No certificates yet. Click "Add Certificate" to add one.</p>
-        </div>
+        <EmptyState
+          icon={<Award size={48} />}
+          title="No certificates yet"
+          description="Add your first certificate to showcase your achievements and credentials."
+          action={{
+            label: 'Add Certificate',
+            onClick: () => setIsCreating(true)
+          }}
+        />
+      )}
+      
+      {certificates.length > 0 && Object.keys(grouped).length === 0 && searchQuery && (
+        <EmptyState
+          icon={<Search size={48} />}
+          title="No certificates found"
+          description={`No certificates match "${searchQuery}". Try a different search term.`}
+        />
       )}
     </div>
   );

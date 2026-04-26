@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button/Button';
 import { Input } from '@/components/ui/Input/Input';
 import styles from './Login.module.css';
-import { Lock, Chrome, Github } from 'lucide-react';
+import { Chrome, Github, ArrowLeft } from 'lucide-react';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -44,8 +44,10 @@ export const Login = () => {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.header}>
-          <div className={styles.icon}>
-            <Lock size={32} />
+          <div className={styles.brand}>
+            <span className={styles.brandTag}>&lt;</span>
+            <span className={styles.brandName}>Kaye</span>
+            <span className={styles.brandTag}>/&gt;</span>
           </div>
           <h1 className={styles.title}>Admin Login</h1>
           <p className={styles.subtitle}>Sign in to manage your portfolio</p>
@@ -119,9 +121,10 @@ export const Login = () => {
         </div>
 
         <div className={styles.footer}>
-          <a href="/" className={styles.backLink}>
-            ← Back to website
-          </a>
+          <Link to="/" className={styles.backLink}>
+            <ArrowLeft size={16} />
+            Back to website
+          </Link>
         </div>
       </div>
     </div>

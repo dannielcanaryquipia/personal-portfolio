@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/Button/Button';
 import { Input } from '@/components/ui/Input/Input';
 import { Card } from '@/components/ui/Card/Card';
+import { FormSection } from '@/components/admin';
 import { useSiteSettings, useUpdateSiteSetting, useUploadFile, useDeleteFile, useAllStats, useUpdateStat, useDeleteStat, useProjects, useCertificates, useContactMessages } from '@/api/hooks';
 import styles from './Settings.module.css';
 import { Settings2, Save, Upload, Trash2, FileText, BarChart3 } from 'lucide-react';
@@ -91,193 +92,199 @@ export const Settings = () => {
         <p className={styles.subtitle}>Manage your website content</p>
       </header>
 
-      <Card className={styles.settingsCard}>
-        <div className={styles.settingsHeader}>
-          <Settings2 size={24} />
-          <h3>Site Content</h3>
+      {/* Site Content Section */}
+      <FormSection
+        title="Site Content"
+        icon={<Settings2 size={20} />}
+        description="Manage your portfolio's main content including hero section and about text."
+      >
+        <div className={styles.formGroup}>
+          <Input
+            label="Hero Title"
+            value={formData.hero_title}
+            onChange={(e) => setFormData({ ...formData, hero_title: e.target.value })}
+          />
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => handleSave('hero_title')}
+            loading={updateSetting.isPending}
+          >
+            <Save size={16} />
+            Save
+          </Button>
         </div>
 
-        <div className={styles.form}>
-          <div className={styles.formGroup}>
-            <Input
-              label="Hero Title"
-              value={formData.hero_title}
-              onChange={(e) => setFormData({ ...formData, hero_title: e.target.value })}
-            />
-            <Button 
-              variant="secondary" 
-              size="sm" 
-              onClick={() => handleSave('hero_title')}
-              loading={updateSetting.isPending}
-            >
-              <Save size={16} />
-              Save
-            </Button>
-          </div>
+        {/* Profile Picture Upload */}
+        <div className={styles.formGroupFull}>
+          <label className={styles.label}>Profile Picture</label>
+          <input
+            type="file"
+            ref={profileInputRef}
+            accept=".jpg,.jpeg,.png,.webp"
+            onChange={(e) => setSelectedProfileFile(e.target.files?.[0] || null)}
+            style={{ display: 'none' }}
+          />
 
-          {/* Profile Picture Upload */}
-          <div className={styles.formGroupFull}>
-            <label className={styles.label}>Profile Picture</label>
-            <input
-              type="file"
-              ref={profileInputRef}
-              accept=".jpg,.jpeg,.png,.webp"
-              onChange={(e) => setSelectedProfileFile(e.target.files?.[0] || null)}
-              style={{ display: 'none' }}
-            />
-            
-            <div className={styles.fileUploadSection}>
-              <div className={styles.filePreviewArea}>
-                {formData.profile_image_url ? (
-                  <div className={styles.currentFile}>
-                    <img 
-                      src={formData.profile_image_url} 
-                      alt="Profile" 
-                      className={styles.profilePreview}
-                      style={{ width: 60, height: 60, borderRadius: '50%', objectFit: 'cover' }}
-                    />
-                    <span className={styles.fileName}>Current Profile Picture</span>
-                  </div>
-                ) : (
-                  <div className={styles.noFile}>
-                    <span>No profile picture</span>
-                  </div>
-                )}
-              </div>
-              
-              <div className={styles.fileActions}>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => profileInputRef.current?.click()}
-                >
-                  <Upload size={16} />
-                  {formData.profile_image_url ? 'Replace' : 'Select Image'}
-                </Button>
-
-                {formData.profile_image_url && (
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={async () => {
-                      if (confirm('Remove profile picture?')) {
-                        const fileName = formData.profile_image_url.split('/').pop();
-                        if (fileName) {
-                          await deleteFile.mutateAsync({ bucket: 'profile', filePath: fileName });
-                        }
-                        await updateSetting.mutateAsync({ key: 'profile_image_url', value: '' });
-                        setFormData({ ...formData, profile_image_url: '' });
-                      }
-                    }}
-                    loading={deleteFile.isPending}
-                  >
-                    <Trash2 size={16} />
-                    Remove
-                  </Button>
-                )}
-              </div>
-
-              {selectedProfileFile && (
-                <div className={styles.selectedFile}>
-                  <span>Selected: {selectedProfileFile.name}</span>
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    onClick={async () => {
-                      if (!selectedProfileFile) return;
-                      
-                      try {
-                        const oldFileName = formData.profile_image_url?.split('/').pop();
-                        
-                        console.log('Uploading profile image:', selectedProfileFile.name);
-                        const { publicUrl } = await uploadFile.mutateAsync({
-                          bucket: 'profile',
-                          file: selectedProfileFile,
-                        });
-                        
-                        if (oldFileName) {
-                          await deleteFile.mutateAsync({ bucket: 'profile', filePath: oldFileName });
-                        }
-                        
-                        await updateSetting.mutateAsync({ key: 'profile_image_url', value: publicUrl });
-                        setFormData({ ...formData, profile_image_url: publicUrl });
-                        setSelectedProfileFile(null);
-                        alert('Profile picture uploaded successfully!');
-                      } catch (error) {
-                        console.error('Upload failed:', error);
-                        alert('Upload failed: ' + (error instanceof Error ? error.message : 'Unknown error'));
-                      }
-                    }}
-                    loading={uploadFile.isPending}
-                  >
-                    <Save size={16} />
-                    Save
-                  </Button>
+          <div className={styles.fileUploadSection}>
+            <div className={styles.filePreviewArea}>
+              {formData.profile_image_url ? (
+                <div className={styles.currentFile}>
+                  <img
+                    src={formData.profile_image_url}
+                    alt="Profile"
+                    className={styles.profilePreview}
+                    style={{ width: 60, height: 60, borderRadius: '50%', objectFit: 'cover' }}
+                  />
+                  <span className={styles.fileName}>Current Profile Picture</span>
+                </div>
+              ) : (
+                <div className={styles.noFile}>
+                  <span>No profile picture</span>
                 </div>
               )}
             </div>
-          </div>
 
-          <div className={styles.formGroup}>
-            <Input
-              label="Hero Subtitle"
-              value={formData.hero_subtitle}
-              onChange={(e) => setFormData({ ...formData, hero_subtitle: e.target.value })}
-            />
-            <Button 
-              variant="secondary" 
-              size="sm" 
-              onClick={() => handleSave('hero_subtitle')}
-              loading={updateSetting.isPending}
-            >
-              <Save size={16} />
-              Save
-            </Button>
-          </div>
+            <div className={styles.fileActions}>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => profileInputRef.current?.click()}
+              >
+                <Upload size={16} />
+                {formData.profile_image_url ? 'Replace' : 'Select Image'}
+              </Button>
 
-          <div className={styles.formGroupFull}>
-            <label className={styles.label}>About Text</label>
-            <p className={styles.fieldHint}>Use line breaks to separate paragraphs for better readability</p>
-            <textarea
-              className={styles.textarea}
-              value={formData.about_text}
-              onChange={(e) => setFormData({ ...formData, about_text: e.target.value })}
-              rows={10}
-              placeholder="Enter your bio here. Use line breaks to create paragraphs..."
-            />
-            <Button 
-              variant="secondary" 
-              size="sm" 
-              onClick={() => handleSave('about_text')}
-              loading={updateSetting.isPending}
-              className={styles.saveBtn}
-              style={{ alignSelf: 'flex-end' }}
-            >
-              <Save size={16} />
-              Save
-            </Button>
-          </div>
+              {formData.profile_image_url && (
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={async () => {
+                    if (confirm('Remove profile picture?')) {
+                      const fileName = formData.profile_image_url.split('/').pop();
+                      if (fileName) {
+                        await deleteFile.mutateAsync({ bucket: 'profile', filePath: fileName });
+                      }
+                      await updateSetting.mutateAsync({ key: 'profile_image_url', value: '' });
+                      setFormData({ ...formData, profile_image_url: '' });
+                    }
+                  }}
+                  loading={deleteFile.isPending}
+                >
+                  <Trash2 size={16} />
+                  Remove
+                </Button>
+              )}
+            </div>
 
-          <div className={styles.formGroup}>
-            <Input
-              label="Contact Email"
-              type="email"
-              value={formData.contact_email}
-              onChange={(e) => setFormData({ ...formData, contact_email: e.target.value })}
-            />
-            <Button 
-              variant="secondary" 
-              size="sm" 
-              onClick={() => handleSave('contact_email')}
-              loading={updateSetting.isPending}
-            >
-              <Save size={16} />
-              Save
-            </Button>
-          </div>
+            {selectedProfileFile && (
+              <div className={styles.selectedFile}>
+                <span>Selected: {selectedProfileFile.name}</span>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={async () => {
+                    if (!selectedProfileFile) return;
 
-          <div className={styles.formGroupFull}>
-            <label className={styles.label}>CV / Resume File</label>
+                    try {
+                      const oldFileName = formData.profile_image_url?.split('/').pop();
+
+                      console.log('Uploading profile image:', selectedProfileFile.name);
+                      const { publicUrl } = await uploadFile.mutateAsync({
+                        bucket: 'profile',
+                        file: selectedProfileFile,
+                      });
+
+                      if (oldFileName) {
+                        await deleteFile.mutateAsync({ bucket: 'profile', filePath: oldFileName });
+                      }
+
+                      await updateSetting.mutateAsync({ key: 'profile_image_url', value: publicUrl });
+                      setFormData({ ...formData, profile_image_url: publicUrl });
+                      setSelectedProfileFile(null);
+                      alert('Profile picture uploaded successfully!');
+                    } catch (error) {
+                      console.error('Upload failed:', error);
+                      alert('Upload failed: ' + (error instanceof Error ? error.message : 'Unknown error'));
+                    }
+                  }}
+                  loading={uploadFile.isPending}
+                >
+                  <Save size={16} />
+                  Save
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className={styles.formGroup}>
+          <Input
+            label="Hero Subtitle"
+            value={formData.hero_subtitle}
+            onChange={(e) => setFormData({ ...formData, hero_subtitle: e.target.value })}
+          />
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => handleSave('hero_subtitle')}
+            loading={updateSetting.isPending}
+          >
+            <Save size={16} />
+            Save
+          </Button>
+        </div>
+
+        <div className={styles.formGroupFull}>
+          <label className={styles.label}>About Text</label>
+          <p className={styles.fieldHint}>Use line breaks to separate paragraphs for better readability</p>
+          <textarea
+            className={styles.textarea}
+            value={formData.about_text}
+            onChange={(e) => setFormData({ ...formData, about_text: e.target.value })}
+            rows={10}
+            placeholder="Enter your bio here. Use line breaks to create paragraphs..."
+          />
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => handleSave('about_text')}
+            loading={updateSetting.isPending}
+            className={styles.saveBtn}
+            style={{ alignSelf: 'flex-end' }}
+          >
+            <Save size={16} />
+            Save
+          </Button>
+        </div>
+
+        <div className={styles.formGroup}>
+          <Input
+            label="Contact Email"
+            type="email"
+            value={formData.contact_email}
+            onChange={(e) => setFormData({ ...formData, contact_email: e.target.value })}
+          />
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => handleSave('contact_email')}
+            loading={updateSetting.isPending}
+          >
+            <Save size={16} />
+            Save
+          </Button>
+        </div>
+      </FormSection>
+
+      {/* CV / Resume Section */}
+      <FormSection
+        title="CV / Resume"
+        icon={<FileText size={20} />}
+        description="Upload your CV or resume file for visitors to download."
+      >
+        <div className={styles.formGroupFull}>
+          <label className={styles.label}>Resume File</label>
             <input
               type="file"
               ref={fileInputRef}
@@ -380,12 +387,16 @@ export const Settings = () => {
               )}
             </div>
           </div>
+        </div>
+      </FormSection>
 
-          <div className={styles.formGroupFull}>
-            <div className={styles.settingsHeader}>
-              <BarChart3 size={20} />
-              <h3>Stats & Metrics</h3>
-            </div>
+      {/* Stats & Metrics Section */}
+      <FormSection
+        title="Stats & Metrics"
+        icon={<BarChart3 size={20} />}
+        description="View live database statistics and manage custom stats displayed on your website."
+      >
+        <div className={styles.formGroupFull}>
 
             {/* Live Database Stats - Read Only */}
             <div className={styles.liveStatsSection}>
@@ -440,15 +451,15 @@ export const Settings = () => {
         </div>
 
         <div className={styles.actions}>
-          <Button 
-            variant="primary" 
+          <Button
+            variant="primary"
             onClick={handleSaveAll}
             loading={updateSetting.isPending}
           >
             Save All Changes
           </Button>
         </div>
-      </Card>
+      </FormSection>
     </div>
   );
 };

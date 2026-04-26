@@ -1,9 +1,10 @@
 import { Card } from '@/components/ui/Card/Card';
 import { Badge } from '@/components/ui/Badge/Badge';
 import { Button } from '@/components/ui/Button/Button';
+import { EmptyState } from '@/components/admin';
 import { useContactMessages, useMarkMessageAsRead } from '@/api/hooks';
 import styles from './Messages.module.css';
-import { Mail, MailOpen, Reply } from 'lucide-react';
+import { Mail, MailOpen, Reply, Inbox } from 'lucide-react';
 
 export const Messages = () => {
   const { data: messages = [], isLoading } = useContactMessages();
@@ -87,10 +88,11 @@ export const Messages = () => {
       </div>
 
       {messages.length === 0 && (
-        <div className={styles.empty}>
-          <Mail size={48} />
-          <p>No messages yet</p>
-        </div>
+        <EmptyState
+          icon={<Inbox size={48} />}
+          title="No messages yet"
+          description="When visitors send you a message through the contact form, it will appear here."
+        />
       )}
     </div>
   );
