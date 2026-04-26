@@ -2,12 +2,11 @@ import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/Button/Button';
 import { Input } from '@/components/ui/Input/Input';
 import { Card } from '@/components/ui/Card/Card';
-import { Badge } from '@/components/ui/Badge/Badge';
 import { AccordionGroup, EmptyState } from '@/components/admin';
 import { useCertificates, useCreateCertificate, useUpdateCertificate, useDeleteCertificate, useUploadFile, useDeleteFile } from '@/api/hooks';
 import { supabase } from '@/api/supabase';
 import styles from './Certificates.module.css';
-import { Plus, Edit2, Trash2, X, Save, FileText, Upload, Award, Search } from 'lucide-react';
+import { Plus, Search, X, Award, Trash2, Save, Upload, FileText, Edit2 } from 'lucide-react';
 
 export const AdminCertificates = () => {
   const { data: certificates = [], isLoading } = useCertificates();

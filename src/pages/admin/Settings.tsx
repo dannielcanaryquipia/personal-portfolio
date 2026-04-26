@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/Button/Button';
 import { Input } from '@/components/ui/Input/Input';
-import { Card } from '@/components/ui/Card/Card';
 import { FormSection } from '@/components/admin';
 import { useSiteSettings, useUpdateSiteSetting, useUploadFile, useDeleteFile, useAllStats, useUpdateStat, useDeleteStat, useProjects, useCertificates, useContactMessages } from '@/api/hooks';
 import styles from './Settings.module.css';
@@ -285,107 +284,106 @@ export const Settings = () => {
       >
         <div className={styles.formGroupFull}>
           <label className={styles.label}>Resume File</label>
-            <input
-              type="file"
-              ref={fileInputRef}
-              accept=".pdf,.doc,.docx"
-              onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
-              style={{ display: 'none' }}
-            />
-            
-            <div className={styles.cvSection}>
-              {formData.cv_url ? (
-                <div className={styles.cvInfo}>
-                  <FileText size={20} />
-                  <span className={styles.cvFileName}>
-                    {formData.cv_url.split('/').pop() || 'Current CV'}
-                  </span>
-                  <a 
-                    href={formData.cv_url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className={styles.cvViewLink}
-                  >
-                    View
-                  </a>
-                </div>
-              ) : (
-                <span className={styles.cvNoFile}>No CV uploaded yet</span>
-              )}
-              
-              <div className={styles.cvActions}>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => fileInputRef.current?.click()}
+          <input
+            type="file"
+            ref={fileInputRef}
+            accept=".pdf,.doc,.docx"
+            onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+            style={{ display: 'none' }}
+          />
+
+          <div className={styles.cvSection}>
+            {formData.cv_url ? (
+              <div className={styles.cvInfo}>
+                <FileText size={20} />
+                <span className={styles.cvFileName}>
+                  {formData.cv_url.split('/').pop() || 'Current CV'}
+                </span>
+                <a
+                  href={formData.cv_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.cvViewLink}
                 >
-                  <Upload size={16} />
-                  {formData.cv_url ? 'Replace' : 'Upload'}
-                </Button>
-                
-                {formData.cv_url && (
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={async () => {
-                      if (confirm('Are you sure you want to delete the CV?')) {
-                        const fileName = formData.cv_url.split('/').pop();
-                        if (fileName) {
-                          await deleteFile.mutateAsync({ bucket: 'cv', filePath: fileName });
-                        }
-                        await updateSetting.mutateAsync({ key: 'cv_url', value: '' });
-                        setFormData({ ...formData, cv_url: '' });
-                      }
-                    }}
-                    loading={deleteFile.isPending}
-                  >
-                    <Trash2 size={16} />
-                    Delete
-                  </Button>
-                )}
+                  View
+                </a>
               </div>
-              
-              {selectedFile && (
-                <div className={styles.selectedFile}>
-                  <span>Selected: {selectedFile.name}</span>
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    onClick={async () => {
-                      if (!selectedFile) return;
-                      
-                      try {
-                        const oldFileName = formData.cv_url?.split('/').pop();
-                        
-                        console.log('Uploading file to cv bucket:', selectedFile.name);
-                        const { publicUrl } = await uploadFile.mutateAsync({
-                          bucket: 'cv',
-                          file: selectedFile,
-                        });
-                        console.log('Upload successful, publicUrl:', publicUrl);
-                        
-                        if (oldFileName) {
-                          console.log('Deleting old file:', oldFileName);
-                          await deleteFile.mutateAsync({ bucket: 'cv', filePath: oldFileName });
-                        }
-                        
-                        await updateSetting.mutateAsync({ key: 'cv_url', value: publicUrl });
-                        setFormData({ ...formData, cv_url: publicUrl });
-                        setSelectedFile(null);
-                        alert('CV uploaded successfully!');
-                      } catch (error) {
-                        console.error('Upload failed:', error);
-                        alert('Upload failed: ' + (error instanceof Error ? error.message : 'Unknown error'));
+            ) : (
+              <span className={styles.cvNoFile}>No CV uploaded yet</span>
+            )}
+
+            <div className={styles.cvActions}>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <Upload size={16} />
+                {formData.cv_url ? 'Replace' : 'Upload'}
+              </Button>
+
+              {formData.cv_url && (
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={async () => {
+                    if (confirm('Are you sure you want to delete the CV?')) {
+                      const fileName = formData.cv_url.split('/').pop();
+                      if (fileName) {
+                        await deleteFile.mutateAsync({ bucket: 'cv', filePath: fileName });
                       }
-                    }}
-                    loading={uploadFile.isPending}
-                  >
-                    <Save size={16} />
-                    Save CV
-                  </Button>
-                </div>
+                      await updateSetting.mutateAsync({ key: 'cv_url', value: '' });
+                      setFormData({ ...formData, cv_url: '' });
+                    }
+                  }}
+                  loading={deleteFile.isPending}
+                >
+                  <Trash2 size={16} />
+                  Delete
+                </Button>
               )}
             </div>
+
+            {selectedFile && (
+              <div className={styles.selectedFile}>
+                <span>Selected: {selectedFile.name}</span>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={async () => {
+                    if (!selectedFile) return;
+
+                    try {
+                      const oldFileName = formData.cv_url?.split('/').pop();
+
+                      console.log('Uploading file to cv bucket:', selectedFile.name);
+                      const { publicUrl } = await uploadFile.mutateAsync({
+                        bucket: 'cv',
+                        file: selectedFile,
+                      });
+                      console.log('Upload successful, publicUrl:', publicUrl);
+
+                      if (oldFileName) {
+                        console.log('Deleting old file:', oldFileName);
+                        await deleteFile.mutateAsync({ bucket: 'cv', filePath: oldFileName });
+                      }
+
+                      await updateSetting.mutateAsync({ key: 'cv_url', value: publicUrl });
+                      setFormData({ ...formData, cv_url: publicUrl });
+                      setSelectedFile(null);
+                      alert('CV uploaded successfully!');
+                    } catch (error) {
+                      console.error('Upload failed:', error);
+                      alert('Upload failed: ' + (error instanceof Error ? error.message : 'Unknown error'));
+                    }
+                  }}
+                  loading={uploadFile.isPending}
+                >
+                  <Save size={16} />
+                  Save CV
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </FormSection>
@@ -397,56 +395,54 @@ export const Settings = () => {
         description="View live database statistics and manage custom stats displayed on your website."
       >
         <div className={styles.formGroupFull}>
+          {/* Live Database Stats - Read Only */}
+          <div className={styles.liveStatsSection}>
+            <h4>Live Database Stats</h4>
+            <div className={styles.liveStatsGrid}>
+              <div className={styles.liveStatItem}>
+                <span className={styles.liveStatValue}>{projects.length}</span>
+                <span className={styles.liveStatLabel}>Projects</span>
+              </div>
+              <div className={styles.liveStatItem}>
+                <span className={styles.liveStatValue}>{certificates.length}</span>
+                <span className={styles.liveStatLabel}>Certificates</span>
+              </div>
+              <div className={styles.liveStatItem}>
+                <span className={styles.liveStatValue}>{messages.length}</span>
+                <span className={styles.liveStatLabel}>Messages</span>
+              </div>
+            </div>
+            <p className={styles.liveStatsNote}>These values are automatically calculated from your database and displayed on the website.</p>
+          </div>
 
-            {/* Live Database Stats - Read Only */}
-            <div className={styles.liveStatsSection}>
-              <h4>Live Database Stats</h4>
-              <div className={styles.liveStatsGrid}>
-                <div className={styles.liveStatItem}>
-                  <span className={styles.liveStatValue}>{projects.length}</span>
-                  <span className={styles.liveStatLabel}>Projects</span>
-                </div>
-                <div className={styles.liveStatItem}>
-                  <span className={styles.liveStatValue}>{certificates.length}</span>
-                  <span className={styles.liveStatLabel}>Certificates</span>
-                </div>
-                <div className={styles.liveStatItem}>
-                  <span className={styles.liveStatValue}>{messages.length}</span>
-                  <span className={styles.liveStatLabel}>Messages</span>
+          {/* Custom Stats */}
+          <div className={styles.statsSection}>
+            <h4>Current Stats</h4>
+            {stats.map((stat) => (
+              <div key={stat.key} className={styles.statItem}>
+                <div className={styles.statInputs}>
+                  <Input
+                    label="Label"
+                    value={statsData[stat.key]?.label ?? stat.label}
+                    onChange={(e) => handleStatUpdate(stat.key, 'label', e.target.value)}
+                  />
+                  <Input
+                    label="Value"
+                    value={statsData[stat.key]?.value ?? stat.value}
+                    onChange={(e) => handleStatUpdate(stat.key, 'value', e.target.value)}
+                  />
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleDeleteStat(stat.key)}
+                    loading={deleteStat.isPending}
+                  >
+                    <Trash2 size={16} />
+                    Delete
+                  </Button>
                 </div>
               </div>
-              <p className={styles.liveStatsNote}>These values are automatically calculated from your database and displayed on the website.</p>
-            </div>
-
-            {/* Custom Stats */}
-            <div className={styles.statsSection}>
-              <h4>Current Stats</h4>
-              {stats.map((stat) => (
-                <div key={stat.key} className={styles.statItem}>
-                  <div className={styles.statInputs}>
-                    <Input
-                      label="Label"
-                      value={statsData[stat.key]?.label ?? stat.label}
-                      onChange={(e) => handleStatUpdate(stat.key, 'label', e.target.value)}
-                    />
-                    <Input
-                      label="Value"
-                      value={statsData[stat.key]?.value ?? stat.value}
-                      onChange={(e) => handleStatUpdate(stat.key, 'value', e.target.value)}
-                    />
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      onClick={() => handleDeleteStat(stat.key)}
-                      loading={deleteStat.isPending}
-                    >
-                      <Trash2 size={16} />
-                      Delete
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
 

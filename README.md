@@ -1406,7 +1406,53 @@ src/components/ui/
 
 ---
 
-## �📄 License
+## 🎨 Admin Panel Design Enhancement
+
+### April 2026 - Admin UI Refinement
+
+**Design Document:** `enhance files from deepseek/docs/admin-panel-design-refinement.md`
+
+**Goal:** Align the admin UI with the portfolio's polished, industrial-theme aesthetic and introduce reusable, well-structured components.
+
+#### New Admin Components (`src/components/admin/`)
+
+| Component | Purpose | Key Features |
+|-----------|---------|--------------|
+| `AccordionGroup` | Certificate grouping by issuer | Collapsible sections, count badge, chevron animation, smooth transitions |
+| `EmptyState` | Consistent empty state design | Icon, title, description, optional action button |
+| `FormSection` | Sectioned form organization | Header with icon, title, description, consistent card styling |
+
+#### Enhanced Admin Pages
+
+**Login Page (`src/pages/admin/Login.tsx`)**
+- Glassmorphism card effect (backdrop blur, semi-transparent background)
+- Gradient background (`#0A0E27 → #0B0F1E`)
+- Brand title `<Kaye/>` with code-style syntax
+- Orange accent border for visual hierarchy
+
+**Certificates Page (`src/pages/admin/Certificates.tsx`)**
+- Integrated `AccordionGroup` for grouping certificates by issuer
+- Search functionality to filter by title or issuer
+- `EmptyState` component for "no certificates" and "no search results" states
+
+**Settings Page (`src/pages/admin/Settings.tsx`)**
+- Restructured into `FormSection` components:
+  - Site Content (Hero Title, Profile Picture, Hero Subtitle, About Text, Contact Email)
+  - CV / Resume section
+  - Stats & Metrics section
+
+**Messages Page (`src/pages/admin/Messages.tsx`)**
+- Integrated `EmptyState` component with Inbox icon
+- Improved empty state messaging
+
+#### Design Tokens Used
+- **Colors:** Navy (`#0A0E27`), Orange (`#FF6B35`), Dark backgrounds
+- **Typography:** System fonts with consistent sizing
+- **CSS Variables:** All components use existing CSS custom properties
+
+---
+
+## 📄 License
 
 Created for portfolio demonstration.
 
