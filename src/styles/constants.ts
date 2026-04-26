@@ -92,3 +92,25 @@ export const Z_INDEX = {
   modal: 300,
   toast: 400,
 } as const;
+
+// Admin-specific design tokens
+export const ADMIN_COLORS = {
+  background: '#0B0F1E',        // slightly deeper than main bg
+  sidebarBg: '#070A18',
+  surface: '#111633',
+  border: '#1E2348',
+  textPrimary: '#E4E6F0',
+  textSecondary: '#8892B0',
+  accent: '#FF6B35',
+  success: '#34D399',
+  warning: '#FBBF24',
+  error: '#F87171',
+  info: '#60A5FA',
+} as const;
+
+export const ADMIN_TYPOGRAPHY = {
+  fontFamily: '"Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  headingSize: '1.25rem',
+  bodySize: '0.875rem',
+  smallSize: '0.75rem',
+} as const;

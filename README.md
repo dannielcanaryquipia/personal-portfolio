@@ -1450,6 +1450,94 @@ src/components/ui/
 - **Typography:** System fonts with consistent sizing
 - **CSS Variables:** All components use existing CSS custom properties
 
+### April 2026 - Admin Panel Component System & Design Alignment
+
+**Goal:** Create a comprehensive reusable component system for the admin panel and align the design with the main portfolio's dark industrial theme.
+
+#### Design Tokens (`src/styles/constants.ts`)
+
+Added admin-specific design tokens to ensure consistency with the main layout:
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `ADMIN_COLORS.background` | `#0B0F1E` | Admin panel background |
+| `ADMIN_COLORS.sidebarBg` | `#070A18` | Sidebar background |
+| `ADMIN_COLORS.surface` | `#111633` | Card/surface backgrounds |
+| `ADMIN_COLORS.border` | `#1E2348` | Border colors |
+| `ADMIN_COLORS.textPrimary` | `#E4E6F0` | Primary text |
+| `ADMIN_COLORS.textSecondary` | `#8892B0` | Secondary text |
+| `ADMIN_COLORS.accent` | `#FF6B35` | Accent color (CTAs, highlights) |
+| `ADMIN_COLORS.success` | `#34D399` | Success states |
+| `ADMIN_COLORS.warning` | `#FBBF24` | Warning states |
+| `ADMIN_COLORS.error` | `#F87171` | Error states |
+| `ADMIN_COLORS.info` | `#60A5FA` | Informational states |
+
+#### New Reusable Components (`src/components/admin/`)
+
+| Component | Purpose | Key Features |
+|-----------|---------|--------------|
+| `StatCard` | Dashboard KPI cards | Icon, value, label, optional trend indicator (positive/negative), hover effects |
+| `QuickActionButton` | Navigation action cards | Icon, label, description, NavLink integration, hover lift effect |
+| `DataTable` | Generic data table | Configurable columns, custom render functions, action buttons, empty state, row click handling |
+| `FormField` | Consistent form inputs | Label with required indicator, error display, helper text, children wrapper |
+| `ImageUpload` | File upload component | Preview (image/file), replace/remove actions, file type support, size validation |
+
+#### Page Enhancements
+
+**Dashboard (`src/pages/admin/Dashboard.tsx`)**
+- Replaced custom stat cards with `StatCard` component
+- Replaced action cards with `QuickActionButton` component
+- Removed redundant CSS styles (now handled by components)
+- Cleaner, more maintainable code structure
+
+**Settings (`src/pages/admin/Settings.tsx`)**
+- Integrated `FormField` component for all form inputs
+- Integrated `ImageUpload` component for profile picture and CV uploads
+- Cleaner form structure with consistent labeling
+- Removed manual file input handling (now handled by ImageUpload)
+- Removed unused state variables and refs
+
+**Messages (`src/pages/admin/Messages.tsx`)**
+- Replaced card-based message list with `DataTable` component
+- Configured columns: Sender (with icon and badge), Email, Date, Message
+- Action buttons: Mark as Read, Reply
+- Row click to mark unread messages as read
+- Empty state handled by DataTable
+
+**AdminLayout (`src/layouts/AdminLayout/AdminLayout.module.css`)**
+- Updated all styling to use admin design tokens
+- Replaced CSS variables with direct hex values for consistency
+- Unified color palette across sidebar, header, and main content
+- Consistent transitions (150ms, 250ms ease-out)
+- Professional hover states with accent color (#FF6B35)
+
+#### Design Alignment
+
+The admin panel now matches the main portfolio's dark industrial theme:
+
+- **Consistent color palette:** #0B0F1E background, #FF6B35 accent
+- **Unified typography:** System fonts with consistent sizing (0.75rem - 1.25rem)
+- **Professional, cohesive UI:** All pages use the same component library
+- **Smooth transitions:** 150ms for hover states, 250ms for layout changes
+- **Responsive design:** Mobile-first approach maintained
+
+#### Modified Files Summary
+
+| File | Changes |
+|------|---------|
+| `src/styles/constants.ts` | Added ADMIN_COLORS and ADMIN_TYPOGRAPHY tokens |
+| `src/components/admin/StatCard/*` | **NEW** - StatCard component with styling |
+| `src/components/admin/QuickActionButton/*` | **NEW** - QuickActionButton component with styling |
+| `src/components/admin/DataTable/*` | **NEW** - DataTable component with styling |
+| `src/components/admin/FormField/*` | **NEW** - FormField component with styling |
+| `src/components/admin/ImageUpload/*` | **NEW** - ImageUpload component with styling |
+| `src/components/admin/index.ts` | Exported all new components |
+| `src/pages/admin/Dashboard.tsx` | Integrated StatCard and QuickActionButton |
+| `src/pages/admin/Dashboard.module.css` | Removed redundant styles |
+| `src/pages/admin/Settings.tsx` | Integrated FormField and ImageUpload |
+| `src/pages/admin/Messages.tsx` | Integrated DataTable |
+| `src/layouts/AdminLayout/AdminLayout.module.css` | Updated to use admin design tokens |
+
 ---
 
 ## 📄 License

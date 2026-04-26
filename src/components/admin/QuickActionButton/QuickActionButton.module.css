@@ -1,0 +1,66 @@
+.quickAction {
+  background: #111633;
+  border: 1px solid #1E2348;
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  transition: all 250ms ease-out;
+  cursor: pointer;
+}
+
+.quickAction:hover {
+  border-color: #FF6B35;
+  background: #141B3D;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
+}
+
+.quickAction:active {
+  transform: translateY(0);
+}
+
+.actionIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0A0E27 0%, #141B3D 100%);
+  border: 1px solid #1E2348;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FF6B35;
+  flex-shrink: 0;
+  transition: all 250ms ease-out;
+}
+
+.quickAction:hover .actionIcon {
+  background: linear-gradient(135deg, #FF6B35 0%, #E85A2A 100%);
+  color: #0A0E27;
+  border-color: #FF6B35;
+}
+
+.actionIcon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.actionContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.actionLabel {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #E4E6F0;
+  margin-bottom: 0.25rem;
+}
+
+.actionDescription {
+  font-size: 0.75rem;
+  color: #8892B0;
+  line-height: 1.4;
+}

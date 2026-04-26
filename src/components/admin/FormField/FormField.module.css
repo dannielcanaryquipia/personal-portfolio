@@ -1,0 +1,35 @@
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #E4E6F0;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.required {
+  color: #F87171;
+  font-weight: 600;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.error {
+  font-size: 0.75rem;
+  color: #F87171;
+  font-weight: 500;
+}
+
+.helperText {
+  font-size: 0.75rem;
+  color: #8892B0;
+  line-height: 1.4;
+}

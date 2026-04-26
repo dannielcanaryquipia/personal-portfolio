@@ -1,7 +1,5 @@
-import { Card } from '@/components/ui/Card/Card';
 import { Badge } from '@/components/ui/Badge/Badge';
-import { Button } from '@/components/ui/Button/Button';
-import { EmptyState } from '@/components/admin';
+import { DataTable } from '@/components/admin';
 import { useContactMessages, useMarkMessageAsRead } from '@/api/hooks';
 import styles from './Messages.module.css';
 import { Mail, MailOpen, Reply, Inbox } from 'lucide-react';
@@ -22,6 +20,59 @@ export const Messages = () => {
 
   const unreadCount = messages.filter(m => !m.is_read).length;
 
+  const columns = [
+    {
+      key: 'name',
+      header: 'Sender',
+      render: (value: string, row: any) => (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          {row.is_read ? <MailOpen size={16} /> : <Mail size={16} />}
+          <span>{value}</span>
+          {!row.is_read && <Badge variant="danger" size="sm">New</Badge>}
+        </div>
+      ),
+    },
+    {
+      key: 'email',
+      header: 'Email',
+    },
+    {
+      key: 'created_at',
+      header: 'Date',
+      render: (value: string) => new Date(value).toLocaleDateString(),
+    },
+    {
+      key: 'message',
+      header: 'Message',
+      render: (value: string) => (
+        <span style={{ 
+          overflow: 'hidden', 
+          textOverflow: 'ellipsis', 
+          whiteSpace: 'nowrap',
+          maxWidth: '300px',
+          display: 'block'
+        }}>
+          {value}
+        </span>
+      ),
+    },
+  ];
+
+  const actions = [
+    {
+      label: 'Mark as Read',
+      icon: <MailOpen size={16} />,
+      onClick: (row: any) => handleMarkAsRead(row.id),
+      variant: 'ghost' as const,
+    },
+    {
+      label: 'Reply',
+      icon: <Reply size={16} />,
+      onClick: (row: any) => handleReply(row.email),
+      variant: 'secondary' as const,
+    },
+  ];
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -37,63 +88,14 @@ export const Messages = () => {
         </div>
       </header>
 
-      <div className={styles.list}>
-        {messages.map((message) => (
-          <Card 
-            key={message.id} 
-            className={`${styles.messageCard} ${!message.is_read ? styles.unread : ''}`}
-          >
-            <div className={styles.messageHeader}>
-              <div className={styles.messageIcon}>
-                {message.is_read ? <MailOpen size={20} /> : <Mail size={20} />}
-              </div>
-              <div className={styles.messageInfo}>
-                <h3 className={styles.messageName}>{message.name}</h3>
-                <span className={styles.messageEmail}>{message.email}</span>
-              </div>
-              <div className={styles.messageMeta}>
-                {!message.is_read && <Badge variant="danger" size="sm">New</Badge>}
-                <span className={styles.messageDate}>
-                  {new Date(message.created_at).toLocaleDateString()}
-                </span>
-              </div>
-            </div>
-
-            <div className={styles.messageBody}>
-              <p className={styles.messageText}>{message.message}</p>
-            </div>
-
-            <div className={styles.messageActions}>
-              {!message.is_read && (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={() => handleMarkAsRead(message.id)}
-                >
-                  <MailOpen size={16} />
-                  Mark as Read
-                </Button>
-              )}
-              <Button 
-                variant="secondary" 
-                size="sm" 
-                onClick={() => handleReply(message.email)}
-              >
-                <Reply size={16} />
-                Reply
-              </Button>
-            </div>
-          </Card>
-        ))}
-      </div>
-
-      {messages.length === 0 && (
-        <EmptyState
-          icon={<Inbox size={48} />}
-          title="No messages yet"
-          description="When visitors send you a message through the contact form, it will appear here."
-        />
-      )}
+      <DataTable
+        columns={columns}
+        data={messages}
+        actions={actions}
+        emptyMessage="No messages yet"
+        emptyIcon={<Inbox size={48} />}
+        onRowClick={(row) => !row.is_read && handleMarkAsRead(row.id)}
+      />
     </div>
   );
 };

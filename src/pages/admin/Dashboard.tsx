@@ -1,9 +1,8 @@
 import { Card } from '@/components/ui/Card/Card';
-import { Badge } from '@/components/ui/Badge/Badge';
+import { StatCard, QuickActionButton } from '@/components/admin';
 import { useProjects, useCertificates, useContactMessages } from '@/api/hooks';
-import { NavLink } from 'react-router-dom';
 import styles from './Dashboard.module.css';
-import { FolderKanban, Award, MessageSquare, Plus, ArrowRight } from 'lucide-react';
+import { FolderKanban, Award, MessageSquare, Plus } from 'lucide-react';
 
 export const Dashboard = () => {
   const { data: projects = [] } = useProjects();
@@ -11,12 +10,6 @@ export const Dashboard = () => {
   const { data: messages = [] } = useContactMessages();
 
   const unreadMessages = messages.filter(m => !m.is_read).length;
-
-  const stats = [
-    { label: 'Projects', value: projects.length, icon: FolderKanban, href: '/admin/projects' },
-    { label: 'Certificates', value: certificates.length, icon: Award, href: '/admin/certificates' },
-    { label: 'Messages', value: unreadMessages, icon: MessageSquare, href: '/admin/messages', badge: unreadMessages > 0 },
-  ];
 
   return (
     <div className={styles.container}>
@@ -27,53 +20,45 @@ export const Dashboard = () => {
 
       {/* Stats Grid */}
       <div className={styles.statsGrid}>
-        {stats.map((stat) => (
-          <NavLink key={stat.label} to={stat.href} className={styles.statCard}>
-            <div className={styles.statIcon}>
-              <stat.icon size={24} />
-            </div>
-            <div className={styles.statContent}>
-              <span className={styles.statValue}>{stat.value}</span>
-              <span className={styles.statLabel}>{stat.label}</span>
-              {stat.badge && <Badge variant="danger" size="sm">New</Badge>}
-            </div>
-          </NavLink>
-        ))}
+        <StatCard
+          label="Projects"
+          value={projects.length}
+          icon={<FolderKanban size={24} />}
+        />
+        <StatCard
+          label="Certificates"
+          value={certificates.length}
+          icon={<Award size={24} />}
+        />
+        <StatCard
+          label="Unread Messages"
+          value={unreadMessages}
+          icon={<MessageSquare size={24} />}
+        />
       </div>
 
       {/* Quick Actions */}
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Quick Actions</h2>
         <div className={styles.actionsGrid}>
-          <NavLink to="/admin/projects" className={styles.actionCard}>
-            <div className={styles.actionIcon}>
-              <Plus size={20} />
-            </div>
-            <div className={styles.actionContent}>
-              <span className={styles.actionTitle}>Add Project</span>
-              <ArrowRight size={16} />
-            </div>
-          </NavLink>
-
-          <NavLink to="/admin/certificates" className={styles.actionCard}>
-            <div className={styles.actionIcon}>
-              <Plus size={20} />
-            </div>
-            <div className={styles.actionContent}>
-              <span className={styles.actionTitle}>Add Certificate</span>
-              <ArrowRight size={16} />
-            </div>
-          </NavLink>
-
-          <NavLink to="/admin/status" className={styles.actionCard}>
-            <div className={styles.actionIcon}>
-              <Award size={20} />
-            </div>
-            <div className={styles.actionContent}>
-              <span className={styles.actionTitle}>Update Status</span>
-              <ArrowRight size={16} />
-            </div>
-          </NavLink>
+          <QuickActionButton
+            icon={<Plus size={20} />}
+            label="Add Project"
+            to="/admin/projects"
+            description="Create a new project"
+          />
+          <QuickActionButton
+            icon={<Plus size={20} />}
+            label="Add Certificate"
+            to="/admin/certificates"
+            description="Upload a new certificate"
+          />
+          <QuickActionButton
+            icon={<Award size={20} />}
+            label="Update Status"
+            to="/admin/status"
+            description="Change your current status"
+          />
         </div>
       </section>
 
