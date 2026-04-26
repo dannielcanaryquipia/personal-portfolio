@@ -328,6 +328,14 @@ export const AdminCertificates = () => {
                     <span className={styles.fileName}>
                       {formData.file_url.split('/').pop() || 'Current File'}
                     </span>
+                    <a 
+                      href={formData.file_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className={styles.fileViewLink}
+                    >
+                      View
+                    </a>
                   </div>
                 ) : (
                   <div className={styles.noFile}>
@@ -440,16 +448,6 @@ export const AdminCertificates = () => {
                     <span className={styles.certDate}>
                       {new Date(cert.issue_date).toLocaleDateString()}
                     </span>
-                  )}
-                  {cert.file_url ? (
-                    <div className={styles.certFile}>
-                      <FileText size={14} />
-                      <span className={styles.fileName}>File uploaded</span>
-                    </div>
-                  ) : (
-                    <div className={styles.certFile}>
-                      <span className={styles.noFile}>No file uploaded</span>
-                    </div>
                   )}
                 </div>
                 <div className={styles.certActions}>
