@@ -9,11 +9,49 @@ interface UseAuthReturn {
   signInWithOAuth: (provider: 'google' | 'github') => Promise<void>;
   signOut: () => Promise<void>;
   isAuthenticated: boolean;
+  isAdmin: boolean;
+  roleLoading: boolean;
 }
 
 export const useAuth = (): UseAuthReturn => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [roleLoading, setRoleLoading] = useState(false);
+
+  // Check admin role when session changes
+  useEffect(() => {
+    const checkAdminRole = async () => {
+      if (!session?.user) {
+        setIsAdmin(false);
+        setRoleLoading(false);
+        return;
+      }
+
+      setRoleLoading(true);
+      console.log('[useAuth] Checking admin role for user:', session.user.id);
+
+      const { data, error } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', session.user.id)
+        .maybeSingle();
+
+      if (error) {
+        console.error('[useAuth] Error fetching user role:', error.message);
+        setIsAdmin(false);
+      } else {
+        console.log('[useAuth] User role data:', data);
+        const hasAdminRole = data?.role === 'admin';
+        console.log('[useAuth] Is admin:', hasAdminRole);
+        setIsAdmin(hasAdminRole);
+      }
+
+      setRoleLoading(false);
+    };
+
+    checkAdminRole();
+  }, [session]);
 
   useEffect(() => {
     // Get initial session
@@ -61,6 +99,8 @@ export const useAuth = (): UseAuthReturn => {
     signIn,
     signInWithOAuth,
     signOut, 
-    isAuthenticated: !!session 
+    isAuthenticated: !!session,
+    isAdmin,
+    roleLoading
   };
 };

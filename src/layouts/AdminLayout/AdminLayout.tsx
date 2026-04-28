@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom';
 import styles from './AdminLayout.module.css';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button/Button';
+import { Badge } from '@/components/ui/Badge/Badge';
 import { ThemeToggle } from '@/components/ui/ThemeToggle/ThemeToggle';
 import { useState, useEffect } from 'react';
 import {
@@ -16,7 +17,8 @@ import {
   PanelLeftOpen,
   Sparkles,
   Menu,
-  X
+  X,
+  Shield
 } from 'lucide-react';
 
 interface AdminLayoutProps {
@@ -24,7 +26,7 @@ interface AdminLayoutProps {
 }
 
 export const AdminLayout = ({ children }: AdminLayoutProps) => {
-  const { session, signOut } = useAuth();
+  const { session, signOut, isAdmin } = useAuth();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
@@ -76,7 +78,17 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
       <aside className={`${styles.sidebar} ${sidebarCollapsed ? styles.collapsed : ''} ${mobileSidebarOpen ? styles.open : ''}`}>
         <div className={styles.sidebarHeader}>
           <h1 className={styles.logo}>{sidebarCollapsed ? 'A' : 'Admin'}</h1>
-          {!sidebarCollapsed && <p className={styles.userEmail}>{session?.user?.email}</p>}
+          {!sidebarCollapsed && (
+            <div className={styles.userInfo}>
+              <p className={styles.userEmail}>{session?.user?.email}</p>
+              {isAdmin && (
+                <Badge variant="success" size="sm">
+                  <Shield size={12} />
+                  Admin
+                </Badge>
+              )}
+            </div>
+          )}
           <button 
             onClick={toggleSidebar} 
             className={styles.collapseBtn}
