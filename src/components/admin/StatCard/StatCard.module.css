@@ -1,66 +1,208 @@
+/* ============================================================================
+   STAT CARD - Distinctive Frontend Design Implementation
+   Extreme typography (200 vs 900), staggered animations, atmospheric depth
+   ============================================================================ */
+
 .statCard {
-  background: var(--color-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  transition: all 250ms ease-out;
+  /* Use existing Card styles as base, add distinctive enhancements */
+  position: relative;
+  overflow: hidden;
+  
+  /* Animation setup - starts invisible for staggered reveal */
+  opacity: 0;
+  transform: translateY(30px) scale(0.96);
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  
+  /* Subtle atmospheric gradient base */
+  background: 
+    linear-gradient(
+      135deg,
+      rgba(136, 192, 208, 0.03) 0%,
+      transparent 50%,
+      rgba(163, 190, 140, 0.02) 100%
+    ),
+    var(--color-secondary);
+  
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Atmospheric gradient overlay for depth */
+.gradientOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 20% 50%,
+    rgba(136, 192, 208, 0.08) 0%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.statCard:hover .gradientOverlay {
+  opacity: 1;
 }
 
 .statCard:hover {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 20px rgba(255, 107, 53, 0.1);
-  transform: translateY(-2px);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(136, 192, 208, 0.1);
+  border-color: rgba(136, 192, 208, 0.3);
 }
 
-.statIcon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+/* Staggered animation delays */
+.stagger1 { animation-delay: 0.1s; }
+.stagger2 { animation-delay: 0.2s; }
+.stagger3 { animation-delay: 0.3s; }
+.stagger4 { animation-delay: 0.4s; }
+.stagger5 { animation-delay: 0.5s; }
+
+/* Keyframe animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.cardBody {
+  position: relative;
+  z-index: 1;
+}
+
+.statLayout {
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: var(--color-text-inverse);
+  gap: 1.25rem;
+}
+
+.iconContainer {
   flex-shrink: 0;
 }
 
+.statIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: 
+    linear-gradient(
+      135deg,
+      #88c0d0 0%,
+      #5e81ac 100%
+    ); /* Nordic frost blue gradient */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2e3440;
+  box-shadow: 
+    0 4px 12px rgba(136, 192, 208, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.statCard:hover .statIcon {
+  transform: scale(1.1) rotate(5deg);
+}
+
 .statIcon svg {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
+  stroke-width: 2;
 }
 
 .statContent {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
 }
 
+/* EXTREME TYPOGRAPHY: Value at 900 weight (black) */
 .statValue {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--color-text);
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  font-size: 2.25rem;
+  font-weight: 900;
+  color: #eceff4; /* Nordic snow storm */
   line-height: 1;
-  margin-bottom: 0.25rem;
+  letter-spacing: -0.03em;
 }
 
+/* EXTREME TYPOGRAPHY: Label at 200 weight (thin) for contrast */
 .statLabel {
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  font-weight: 500;
+  font-weight: 200;
+  color: #88c0d0; /* Nordic frost blue */
+  letter-spacing: 0.02em;
 }
 
 .statTrend {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 0.75rem;
-  font-weight: 600;
-  margin-top: 0.5rem;
+  font-weight: 300;
+  margin-top: 0.25rem;
+  letter-spacing: 0.01em;
+}
+
+.trendArrow {
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.trendValue {
+  font-variant-numeric: tabular-nums;
 }
 
 .statTrend.positive {
-  color: var(--color-success);
+  color: #a3be8c; /* Nordic aurora green */
+}
+
+.statTrend.positive .trendArrow {
+  color: #a3be8c;
 }
 
 .statTrend.negative {
-  color: var(--color-danger);
+  color: #bf616a; /* Nordic aurora red */
+}
+
+.statTrend.negative .trendArrow {
+  color: #bf616a;
+}
+
+/* Grid layout for multiple stat cards */
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ============================================================================
+   REDUCED MOTION SUPPORT
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .statCard {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  
+  .statCard:hover {
+    transform: none;
+  }
+  
+  .statCard:hover .statIcon {
+    transform: none;
+  }
 }

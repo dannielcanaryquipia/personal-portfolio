@@ -21,7 +21,6 @@ const DEFAULT_NAV_ITEMS: NavItem[] = [
   { path: '/contact', label: 'Contact' },
 ];
 
-// Memoized nav link component for performance
 const NavLinkItem = memo(({ path, label, onClick }: NavItem & { onClick?: () => void }) => (
   <NavLink
     to={path}
@@ -32,62 +31,39 @@ const NavLinkItem = memo(({ path, label, onClick }: NavItem & { onClick?: () => 
     {label}
   </NavLink>
 ));
-
 NavLinkItem.displayName = 'NavLinkItem';
 
 export const Navbar = memo(({ siteName, navItems = DEFAULT_NAV_ITEMS }: NavbarProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [location.pathname]);
+  useEffect(() => { setMobileMenuOpen(false); }, [location.pathname]);
 
-  // Close mobile menu on window resize to desktop
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 768) {
-        setMobileMenuOpen(false);
-      }
+      if (window.innerWidth > 768) setMobileMenuOpen(false);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
   }, [mobileMenuOpen]);
 
-  const toggleMobileMenu = useCallback(() => {
-    setMobileMenuOpen((prev) => !prev);
-  }, []);
-
-  const closeMobileMenu = useCallback(() => {
-    setMobileMenuOpen(false);
-  }, []);
+  const toggleMobileMenu = useCallback(() => setMobileMenuOpen(prev => !prev), []);
+  const closeMobileMenu  = useCallback(() => setMobileMenuOpen(false), []);
 
   return (
     <header className={styles.header}>
       <div className={styles.container}>
         {/* Logo */}
-        <NavLink to="/" className={styles.logo}>
-          {siteName}
-        </NavLink>
+        <NavLink to="/" className={styles.logo}>{siteName}</NavLink>
 
         {/* Desktop Navigation */}
         <nav className={styles.desktopNav}>
-          {navItems.map((item) => (
-            <NavLinkItem key={item.path} {...item} />
-          ))}
+          {navItems.map(item => <NavLinkItem key={item.path} {...item} />)}
         </nav>
 
         {/* Desktop Actions */}
@@ -106,14 +82,14 @@ export const Navbar = memo(({ siteName, navItems = DEFAULT_NAV_ITEMS }: NavbarPr
         </button>
       </div>
 
-      {/* Mobile Navigation Drawer - slides in from the LEFT */}
+      {/* Mobile Navigation Drawer — slides in from the LEFT */}
       <div
         className={`${styles.mobileDrawer} ${mobileMenuOpen ? styles.open : ''}`}
         aria-hidden={!mobileMenuOpen}
       >
         {/* NOTE: drawer header with siteName intentionally removed */}
         <nav className={styles.mobileNav}>
-          {navItems.map((item) => (
+          {navItems.map(item => (
             <NavLinkItem key={item.path} {...item} onClick={closeMobileMenu} />
           ))}
         </nav>
@@ -122,12 +98,11 @@ export const Navbar = memo(({ siteName, navItems = DEFAULT_NAV_ITEMS }: NavbarPr
         </div>
       </div>
 
-      {/* Mobile Overlay */}
+      {/* Overlay */}
       {mobileMenuOpen && (
         <div className={styles.overlay} onClick={closeMobileMenu} aria-hidden="true" />
       )}
     </header>
   );
 });
-
 Navbar.displayName = 'Navbar';

@@ -1362,7 +1362,79 @@ A comprehensive design enhancement package was integrated to elevate the portfol
 
 ---
 
-## � Changelog
+## Changelog
+
+### April 28, 2026 - Page Transitions & Component Enhancements
+
+**Commit:** `feat: add page transitions, enhance admin components, and update navbar styles`
+
+#### New Components
+
+**PageTransition Component** (`src/components/common/PageTransition/`)
+- **NEW** `PageTransition.tsx` - Smooth page transition wrapper using Framer Motion
+- **NEW** `PageTransition.module.css` - Animation styles for page enter/exit transitions
+- Features:
+  - Fade and slide animations between route changes
+  - Configurable transition duration and direction
+  - Reduced motion support for accessibility
+  - Integrates with React Router for seamless navigation
+
+#### Enhanced Components
+
+**StatCard Component** (`src/components/admin/StatCard/`)
+- **NEW** `index.ts` - Barrel export for cleaner imports
+- Enhanced styling with improved hover effects and animations
+- Better responsive layout for dashboard stat displays
+
+**Navbar Component** (`src/components/ui/Navbar/`)
+- Refactored styling in `Navbar.module.css`
+- Improved responsive behavior and mobile drawer animations
+- Better integration with theme system
+
+**ThemeToggle Component** (`src/components/ui/ThemeToggle/`)
+- Updated styling in `ThemeToggle.module.css`
+- Enhanced accessibility and visual feedback
+- Smoother transition animations between themes
+
+#### Configuration & Type Safety
+
+**TypeScript Support**
+- **NEW** `src/vite-env.d.ts` - Vite environment type definitions
+  - Declares `ImportMetaEnv` interface for `import.meta.env`
+  - Provides type safety for environment variables (e.g., `VITE_SUPABASE_URL`)
+  - Extends `ImportMeta` interface for proper Vite support
+
+**Build Configuration**
+- Updated `tsconfig.app.json` - Improved TypeScript compilation settings
+- Updated `index.html` - Enhanced meta tags and script loading
+- Updated `package-lock.json` - Dependency lock file synchronization
+
+**Development Workflow**
+- **NEW** `.windsurrules` - Comprehensive AI coding assistant rules (325 lines)
+  - Project conventions and best practices
+  - Component patterns and styling guidelines
+  - Git workflow and commit message standards
+
+#### Modified Files Summary
+
+| File | Changes |
+|------|---------|
+| `src/components/common/PageTransition/*` | **NEW** - Page transition component with Framer Motion |
+| `src/components/admin/StatCard/index.ts` | **NEW** - Barrel export for StatCard |
+| `src/components/admin/StatCard/StatCard.tsx` | Enhanced with improved animations |
+| `src/components/admin/StatCard/StatCard.module.css` | Updated styling and hover effects |
+| `src/components/ui/Navbar/Navbar.tsx` | Refactored for better theme integration |
+| `src/components/ui/Navbar/Navbar.module.css` | Improved responsive styles |
+| `src/components/ui/ThemeToggle/ThemeToggle.tsx` | Enhanced accessibility |
+| `src/components/ui/ThemeToggle/ThemeToggle.module.css` | Smoother theme transitions |
+| `src/layouts/MainLayout/MainLayout.module.css` | Updated to work with PageTransition |
+| `src/App.tsx` | Integrated PageTransition wrapper |
+| `src/vite-env.d.ts` | **NEW** - Vite environment type definitions |
+| `tsconfig.app.json` | Updated TypeScript configuration |
+| `index.html` | Enhanced meta configuration |
+| `.windsurrules` | **NEW** - AI assistant coding guidelines |
+
+---
 
 ### April 2026 - Mobile Responsiveness & Bug Fixes
 

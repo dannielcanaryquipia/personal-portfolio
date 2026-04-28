@@ -1,0 +1,98 @@
+/* Page Transition Styles - Distinctive Design System */
+/* Using CSS variables for theming support */
+
+.pageWrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  will-change: transform, opacity;
+}
+
+/* Atmospheric gradient overlay for depth */
+.gradientOverlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  animation: fadeInOverlay 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.2s;
+}
+
+/* Light mode gradient */
+[data-theme='light'] .gradientOverlay {
+  background: radial-gradient(
+    circle at 80% 20%,
+    rgba(136, 192, 208, 0.15) 0%,
+    rgba(191, 97, 106, 0.08) 30%,
+    transparent 70%
+  );
+}
+
+/* Dark mode gradient - Nordic theme accent colors */
+[data-theme='dark'] .gradientOverlay,
+.gradientOverlay {
+  background: radial-gradient(
+    circle at 20% 80%,
+    rgba(136, 192, 208, 0.12) 0%,
+    rgba(163, 190, 140, 0.06) 40%,
+    transparent 70%
+  );
+}
+
+/* Content container */
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Fade in animation for overlay */
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .pageWrapper {
+    animation: none !important;
+  }
+  
+  .gradientOverlay {
+    animation: none !important;
+    opacity: 0.5;
+  }
+}
+
+/* Optional: Page loading indicator */
+.pageLoading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--accent-1, #88c0d0),
+    var(--accent-2, #bf616a),
+    var(--accent-3, #a3be8c)
+  );
+  z-index: 9999;
+  transform-origin: left;
+  animation: pageLoadingProgress 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pageLoadingProgress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

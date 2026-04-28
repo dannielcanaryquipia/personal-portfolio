@@ -1,11 +1,20 @@
 /* ============================================================================
    ENHANCED MAIN LAYOUT - Main Content & Footer
+   With Distinctive Frontend Design System Integration
    ============================================================================ */
 
+/* Distinctive Design Tokens for Page Transitions */
 .layout {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  
+  /* Animation timing - from .windsurrules skill */
+  --ease-distinctive: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 0.3s;
+  --duration-base: 0.6s;
+  --duration-slow: 0.9s;
+  --stagger-delay: 0.1s;
 }
 
 /* ============================================================================
@@ -62,6 +71,67 @@
   color: var(--color-accent);
   background: rgba(var(--color-accent-rgb), 0.1);
   transform: translateY(-3px);
+}
+
+/* ============================================================================
+   STAGGERED ANIMATIONS - From Distinctive Frontend Skill
+   ============================================================================ */
+
+/* Base fade-in animation for staggered reveals */
+.fadeInUp {
+  opacity: 0;
+  animation: fadeInUp 0.8s var(--ease-distinctive) forwards;
+}
+
+/* Stagger delay classes */
+.stagger-1 { animation-delay: calc(var(--stagger-delay) * 1); }
+.stagger-2 { animation-delay: calc(var(--stagger-delay) * 2); }
+.stagger-3 { animation-delay: calc(var(--stagger-delay) * 3); }
+.stagger-4 { animation-delay: calc(var(--stagger-delay) * 4); }
+.stagger-5 { animation-delay: calc(var(--stagger-delay) * 5); }
+
+/* Keyframe animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .fadeInUp,
+  .main {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /* ============================================================================
